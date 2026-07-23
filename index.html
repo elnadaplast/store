@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="الندى بلاست - للتجارة والتوزيع وحلول التغليف">
-    <title>Al-Nada Plast Shop</title>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="item/1000412269_2.jpg">
+    <title>Al-Nada Plast | Packaging Solutions Since 1996</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,16 +21,6 @@
                     fontFamily: {
                         'ar': ['Cairo', 'sans-serif'],
                         'en': ['Poppins', 'sans-serif'],
-                    },
-                    animation: {
-                        'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-                    },
-                    keyframes: {
-                        pop: {
-                            '0%': { transform: 'scale(1)' },
-                            '50%': { transform: 'scale(1.4)' },
-                            '100%': { transform: 'scale(1)' },
-                        }
                     }
                 }
             }
@@ -51,6 +37,7 @@
             background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%);
         }
         
+        /* Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(20px);
@@ -69,210 +56,205 @@
         ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
-        .modal-hidden { opacity: 0; pointer-events: none; visibility: hidden; transition: all 0.3s ease; }
-        .modal-visible { opacity: 1; pointer-events: auto; visibility: visible; transition: all 0.3s ease; }
+        .modal-hidden { display: none; }
         
+        /* Animations */
         .scale-in { animation: scaleIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes scaleIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
-        .fade-in-up { animation: fadeInUp 0.4s ease forwards; opacity: 0; }
+        .fade-in-up { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
         @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .float { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
+        .badge-pop { animation: badgePop 0.3s ease; }
+        @keyframes badgePop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-        .category-slider { scrollbar-width: none; -ms-overflow-style: none; cursor: grab; }
+        /* Category Slider Config */
+        .category-slider {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: grab;
+        }
         .category-slider::-webkit-scrollbar { display: none; }
         .category-slider.dragging { cursor: grabbing; }
         .category-slider.dragging * { pointer-events: none; user-select: none; }
 
+        /* Logical Properties for RTL/LTR */
         .modal-close-btn { position: absolute; top: 1rem; inset-inline-end: 1rem; }
-        .search-icon { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-start: 1.2rem; }
-        .search-clear { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-end: 1.2rem; }
-        #searchInput { padding-inline-start: 2.8rem; padding-inline-end: 2.8rem; }
+        .search-icon { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-start: 1rem; }
+        .search-clear { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-end: 1rem; }
+        #searchInput { padding-inline-start: 2.5rem; padding-inline-end: 2.25rem; }
 
-        .cart-drawer-anim { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .modal-hidden .cart-drawer-anim { transform: translateX(100%); }
-        [dir="rtl"] .modal-hidden .cart-drawer-anim { transform: translateX(-100%); }
-        .modal-visible .cart-drawer-anim { transform: translateX(0); }
+        .cart-drawer-anim { animation: slideInRight 0.4s ease forwards; }
+        [dir="rtl"] .cart-drawer-anim { animation: slideInLeft 0.4s ease forwards; }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes slideInLeft { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-10">
+<body class="font-ar dark:text-gray-100 min-h-screen overflow-x-hidden flex flex-col">
 
     <!-- Navbar -->
-    <nav class="sticky top-0 z-40 glass shadow-sm transition-colors duration-300">
+    <nav class="sticky top-0 z-40 glass shadow-sm">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-2 sm:gap-4">
-            <div class="flex items-center gap-2 sm:gap-3 cursor-pointer flex-shrink-0 group" onclick="resetFilters()">
-                <img src="item/1000412269_2.jpg" alt="Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl object-cover shadow-md transition-all duration-300 group-hover:rotate-6 group-hover:scale-105" onerror="this.src='https://placehold.co/100x100/10b981/ffffff?text=Logo'">
-                <div class="hidden sm:block transition-transform duration-300 group-hover:translate-x-1">
+            <!-- Logo & Brand -->
+            <div class="flex items-center gap-2 sm:gap-3 cursor-pointer flex-shrink-0" onclick="resetFilters()">
+                <img src="1000412269_2.jpg" alt="Al-Nada Plast Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl object-cover shadow-md transition-transform hover:rotate-6" onerror="this.src='https://placehold.co/100x100/10b981/ffffff?text=Logo'">
+                <div class="hidden sm:block">
                     <h1 class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400" data-i18n="brand_name">الندي بلاست</h1>
-                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="brand_sub">Trading & Distribution</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="brand_sub">Packaging Solutions Since 1996</p>
                 </div>
             </div>
 
             <!-- Search Bar -->
-            <div id="searchContainer" class="flex-1 max-w-xl relative group hidden">
-                <input type="text" id="searchInput" oninput="debouncedSearch()" 
-                       class="w-full py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-sm sm:text-base shadow-sm hover:shadow-md"
+            <div id="searchContainer" class="flex-1 max-w-xl relative hidden">
+                <input type="text" id="searchInput" oninput="handleSearchDebounced()" 
+                       class="w-full py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-sm sm:text-base"
                        placeholder="ابحث عن منتج..." data-i18n-ph="search_placeholder">
-                <i class="fas fa-search search-icon text-gray-400 text-sm pointer-events-none group-focus-within:text-emerald-500 transition-colors"></i>
-                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden search-clear text-gray-400 hover:text-red-500 transition-colors transform hover:scale-110">
+                <i class="fas fa-search search-icon text-gray-400 text-sm pointer-events-none"></i>
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden search-clear text-gray-400 hover:text-red-500 transition-colors">
                     <i class="fas fa-times-circle"></i>
                 </button>
             </div>
 
+            <!-- Actions -->
             <div class="flex items-center gap-1 sm:gap-3 flex-shrink-0">
-                <button onclick="toggleTheme()" class="p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg">
-                    <i class="fas fa-moon dark:hidden text-slate-700"></i>
+                <button onclick="toggleTheme()" class="p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg" aria-label="Theme">
+                    <i class="fas fa-moon dark:hidden"></i>
                     <i class="fas fa-sun hidden dark:inline text-yellow-400"></i>
                 </button>
-                <button onclick="toggleLang()" class="px-3 py-1.5 rounded-full bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-600 transition-all shadow-sm transform hover:scale-105">
+                <button onclick="toggleLang()" class="px-3 py-1.5 rounded-full bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-600 transition-colors shadow-sm">
                     <span id="langToggleBtn">EN</span>
                 </button>
-                <button onclick="toggleCart()" id="cartBtnGlobal" class="relative p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg group hidden">
-                    <i id="cartIconAnim" class="fas fa-shopping-cart text-emerald-600 dark:text-emerald-400 transition-transform duration-300 group-hover:scale-110"></i>
-                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full hidden font-bold shadow-sm transition-transform duration-300">0</span>
+                <button id="cartBtn" onclick="toggleCart()" class="relative p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg hidden" aria-label="Cart">
+                    <i class="fas fa-shopping-cart text-emerald-600 dark:text-emerald-400"></i>
+                    <span id="cartBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full hidden font-bold">0</span>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Global Loading State -->
-    <div id="globalLoadingState" class="flex flex-col items-center justify-center py-32 text-center px-4">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-emerald-500 mb-4"></div>
-        <h2 class="text-xl font-bold text-slate-800 dark:text-gray-100">جاري تحميل المنتجات...</h2>
-    </div>
-
-    <!-- Global Empty State -->
-    <div id="globalEmptyState" class="hidden flex-col items-center justify-center py-32 text-center px-4">
-        <div class="float w-32 h-32 mb-6 rounded-full bg-gray-200 dark:bg-slate-800 flex items-center justify-center shadow-inner">
-            <i class="fas fa-box-open text-6xl text-gray-400 dark:text-gray-500"></i>
+    <!-- Categories Section -->
+    <section id="categorySection" class="sticky top-[65px] sm:top-[73px] z-30 glass shadow-sm py-3 mb-6 hidden">
+        <div class="container mx-auto px-2 sm:px-4">
+            <ul id="categoryList" class="category-slider flex gap-2 overflow-x-auto w-full"></ul>
         </div>
-        <h2 class="text-3xl font-extrabold mb-4 text-slate-800 dark:text-gray-100" data-i18n="store_empty_title">المتجر قيد التحديث</h2>
-        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-md mx-auto" data-i18n="store_empty_desc">لا توجد منتجات معروضة في المتجر حالياً. نحن نقوم بتحديث الكتالوج الخاص بنا، يرجى التواصل معنا مباشرة للطلبات.</p>
-    </div>
+    </section>
 
-    <!-- Main Store Wrapper -->
-    <div id="shopMainWrapper" class="hidden">
-        <!-- Categories Section -->
-        <section class="sticky top-[65px] sm:top-[73px] z-30 glass shadow-sm py-3 mb-6 transition-colors duration-300">
-            <div class="container mx-auto px-2 sm:px-4">
-                <ul id="categoryList" class="category-slider flex gap-2 overflow-x-auto w-full pb-1"></ul>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 flex-1 w-full">
+        <!-- Loading State -->
+        <div id="loadingState" class="flex flex-col items-center justify-center py-20">
+            <div class="spinner mb-4"></div>
+            <p class="text-gray-500 dark:text-gray-400" data-i18n="loading">جاري تحميل المنتجات...</p>
+        </div>
+
+        <!-- Maintenance State -->
+        <div id="maintenanceState" class="hidden flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400">
+            <div class="float w-24 h-24 mb-6 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center">
+                <i class="fas fa-tools text-5xl text-yellow-500"></i>
             </div>
-        </section>
+            <h3 class="text-xl sm:text-2xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="maintenance_title">المتجر قيد الصيانة</h3>
+            <p class="mb-6 px-4" data-i18n="maintenance_desc">نقوم حالياً بتحديث الكتالوج الخاص بنا. يرجى العودة لاحقاً.</p>
+        </div>
 
         <!-- Product Grid -->
-        <main class="container mx-auto px-4 mb-16">
-            <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"></div>
-            
-            <!-- Empty State for Search -->
-            <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400">
-                <div class="float w-24 h-24 mb-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <i class="fas fa-search text-5xl text-emerald-500"></i>
-                </div>
-                <h3 class="text-xl sm:text-2xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="no_results_title">لا توجد منتجات مطابقة</h3>
-                <p class="mb-6 px-4" data-i18n="no_results_desc">حاول تعديل البحث أو تصفح الفئات الأخرى</p>
-                <button onclick="resetFilters()" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-all shadow-lg transform hover:-translate-y-1">
-                    <i class="fas fa-redo ml-2"></i><span data-i18n="show_all">عرض كل المنتجات</span>
-                </button>
+        <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"></div>
+        
+        <!-- Empty Search State -->
+        <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400">
+            <div class="float w-24 h-24 mb-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                <i class="fas fa-box-open text-5xl text-emerald-500"></i>
             </div>
-        </main>
-    </div>
+            <h3 class="text-xl sm:text-2xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="no_results_title">لا توجد منتجات مطابقة</h3>
+            <p class="mb-6 px-4" data-i18n="no_results_desc">حاول تعديل البحث أو تصفح الفئات الأخرى</p>
+            <button onclick="resetFilters()" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-colors shadow-lg text-sm sm:text-base">
+                <i class="fas fa-redo ml-2"></i><span data-i18n="show_all">عرض كل المنتجات</span>
+            </button>
+        </div>
+    </main>
 
-    <!-- Corporate Footer / Contact Info -->
-    <footer class="container mx-auto px-4 mt-8 mb-4">
-        <div class="glass rounded-3xl p-6 sm:p-10 shadow-lg border border-gray-100 dark:border-gray-800">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center md:text-start">
-                    <h3 class="text-2xl font-extrabold mb-4 text-emerald-600 dark:text-emerald-400" data-i18n="footer_about_title">الندى بلاست</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4" data-i18n="footer_about_desc">
-                        نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.
-                    </p>
-                    <div class="flex items-center justify-center md:justify-start gap-4">
-                        <a href="https://www.facebook.com/share/1C1pKGFayp/" target="_blank" class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors">
-                            <i class="fab fa-facebook-f text-lg"></i>
-                        </a>
-                        <a href="https://maps.app.goo.gl/azVw1khGMuYoV8xd9" target="_blank" class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors">
-                            <i class="fas fa-map-marker-alt text-lg"></i>
-                        </a>
+    <!-- Corporate Footer -->
+    <footer id="corpFooter" class="glass mt-12 hidden">
+        <div class="container mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+            <!-- About -->
+            <div>
+                <h3 class="text-lg font-extrabold mb-4 text-emerald-600 dark:text-emerald-400" data-i18n="brand_name">الندي بلاست</h3>
+                <p class="text-gray-600 dark:text-gray-400 leading-relaxed" data-i18n="footer_history">
+                    Since 1996, Al-Nada Plast has been a leading provider of packaging solutions and trading in Egypt. We offer high-quality products to meet all your business needs.
+                </p>
+                <div class="flex gap-4 mt-4">
+                    <a href="https://www.facebook.com" target="_blank" class="text-2xl text-blue-600 hover:scale-125 transition-transform"><i class="fab fa-facebook"></i></a>
+                    <a href="https://maps.google.com" target="_blank" class="text-2xl text-red-500 hover:scale-125 transition-transform"><i class="fas fa-map-marker-alt"></i></a>
+                </div>
+            </div>
+
+            <!-- Contacts -->
+            <div>
+                <h3 class="text-lg font-extrabold mb-4 text-slate-700 dark:text-gray-200" data-i18n="footer_contacts">تواصل معنا</h3>
+                <ul class="space-y-3">
+                    <li>
+                        <button onclick="openContactModal('orders', '01112611103')" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-emerald-500 transition-colors">
+                            <i class="fas fa-truck-fast w-5"></i> <span data-i18n="orders_dept">قسم الطلبات والتوصيل:</span> <span dir="ltr">01112611103</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="openContactModal('sales', '01044200047')" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-emerald-500 transition-colors">
+                            <i class="fas fa-handshake w-5"></i> <span data-i18n="sales_dept">قسم المبيعات:</span> <span dir="ltr">01044200047</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="openContactModal('complaints', '01027760090')" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-emerald-500 transition-colors">
+                            <i class="fas fa-headset w-5"></i> <span data-i18n="complaints_dept">قسم الشكاوى:</span> <span dir="ltr">01027760090</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Payment -->
+            <div>
+                <h3 class="text-lg font-extrabold mb-4 text-slate-700 dark:text-gray-200" data-i18n="payment_methods">طرق الدفع</h3>
+                <div class="space-y-3 text-gray-600 dark:text-gray-400">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-mobile-screen w-5 text-purple-500"></i> InstaPay: <span dir="ltr">01115949155</span>
                     </div>
-                </div>
-
-                <div class="text-center md:text-start">
-                    <h4 class="text-lg font-bold mb-4 text-slate-800 dark:text-gray-100" data-i18n="footer_contact_title">تواصل معنا</h4>
-                    <ul class="space-y-3 text-sm font-semibold">
-                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01112611103')">
-                            <i class="fas fa-truck-fast text-emerald-500"></i> 
-                            <span data-i18n="contact_delivery">الطلب والتوصيل:</span> <span class="dir-ltr">011 1261 1103</span>
-                        </li>
-                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01044200047')">
-                            <i class="fas fa-handshake text-blue-500"></i> 
-                            <span data-i18n="contact_sales">المبيعات:</span> <span class="dir-ltr">010 4420 0047</span>
-                        </li>
-                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01027760090')">
-                            <i class="fas fa-headset text-red-500"></i> 
-                            <span data-i18n="contact_complaints">الشكاوى:</span> <span class="dir-ltr">010 2776 0090</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="text-center md:text-start">
-                    <h4 class="text-lg font-bold mb-4 text-slate-800 dark:text-gray-100" data-i18n="footer_payment_title">طرق الدفع</h4>
-                    <div class="space-y-3">
-                        <div class="flex items-center justify-center md:justify-start gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                            <i class="fas fa-wallet text-purple-600 text-xl"></i>
-                            <div class="text-start">
-                                <p class="text-xs font-bold text-gray-500">InstaPay</p>
-                                <p class="text-sm font-bold text-slate-800 dark:text-gray-200 dir-ltr">01115949155</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-center md:justify-start gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                            <i class="fas fa-money-bill-wave text-red-600 text-xl"></i>
-                            <div class="text-start">
-                                <p class="text-xs font-bold text-gray-500">Vodafone Cash</p>
-                                <p class="text-sm font-bold text-slate-800 dark:text-gray-200 dir-ltr">01027760090</p>
-                            </div>
-                        </div>
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-wallet w-5 text-red-500"></i> Vodafone Cash: <span dir="ltr">01027760090</span>
                     </div>
                 </div>
             </div>
-            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-400 font-bold">
-                © 2024 Al-Nada Plast. All Rights Reserved.
-            </div>
+        </div>
+        <div class="border-t border-gray-200 dark:border-slate-700 py-4 text-center text-xs text-gray-500">
+            <p>&copy; 2023 Al-Nada Plast. All Rights Reserved.</p>
         </div>
     </footer>
-
-    <!-- Contact Action Modal -->
-    <div id="actionModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4" onclick="closeModal('actionModal', event)">
-        <div class="glass bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl scale-in text-center" onclick="event.stopPropagation()">
-            <h3 class="font-extrabold text-xl mb-6 text-slate-800 dark:text-white" data-i18n="action_title">تواصل معنا</h3>
-            <div class="space-y-3">
-                <a id="callLink" href="#" class="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-xl font-bold transition shadow-md">
-                    <i class="fa-solid fa-phone"></i> <span data-i18n="action_call">اتصال هاتفي</span>
-                </a>
-                <a id="waLink" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-green-500 hover:bg-green-600 text-white p-4 rounded-xl font-bold transition shadow-md">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> <span data-i18n="action_whatsapp">محادثة واتساب</span>
-                </a>
-                <button onclick="closeModal('actionModal')" class="w-full text-gray-500 hover:text-red-500 mt-4 font-bold transition p-2" data-i18n="action_cancel">إلغاء</button>
-            </div>
-        </div>
-    </div>
 
     <!-- Product Quick View Modal -->
     <div id="productModal" class="modal-hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-md" onclick="closeModal('productModal', event)">
         <div class="glass rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto scale-in relative grid sm:grid-cols-2 gap-6 shadow-2xl" onclick="event.stopPropagation()">
-            <button onclick="closeModal('productModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
+            <button onclick="closeModal('productModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110">
                 <i class="fas fa-times-circle"></i>
             </button>
-            <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden flex items-center justify-center min-h-[200px] sm:min-h-[250px] shadow-inner p-4 relative group">
-                <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain max-h-[300px] sm:max-h-[400px] transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Image+Not+Found'">
+            <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden flex items-center justify-center min-h-[200px] sm:min-h-[250px] shadow-inner p-4">
+                <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain max-h-[300px] sm:max-h-[400px] transition-transform duration-500 hover:scale-110" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Image+Not+Found'">
             </div>
             <div class="flex flex-col justify-center">
                 <div id="modalCategories" class="flex flex-wrap gap-2 mb-3"></div>
-                <h2 id="modalName" class="text-xl sm:text-2xl font-extrabold mb-6 text-slate-800 dark:text-gray-100 leading-tight"></h2>
+                <h2 id="modalName" class="text-xl sm:text-2xl font-extrabold mb-6 text-slate-800 dark:text-gray-100"></h2>
                 
                 <div class="mb-6">
                     <label class="block mb-3 font-bold text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400" data-i18n="select_unit">اختر الوحدة:</label>
@@ -282,13 +264,13 @@
                 <div class="mb-8">
                     <label class="block mb-3 font-bold text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400" data-i18n="quantity">الكمية:</label>
                     <div class="flex items-center gap-3">
-                        <button onclick="changeModalQty(-1)" class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-slate-700 text-xl font-bold hover:bg-emerald-500 hover:text-white transition-all transform active:scale-95 shadow-sm">-</button>
-                        <input type="number" id="modalQty" value="1" min="1" class="flex-1 text-center text-xl font-bold rounded-xl bg-white dark:bg-slate-800 border-2 border-transparent focus:border-emerald-500 py-3 shadow-sm transition-colors outline-none">
-                        <button onclick="changeModalQty(1)" class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-slate-700 text-xl font-bold hover:bg-emerald-500 hover:text-white transition-all transform active:scale-95 shadow-sm">+</button>
+                        <button onclick="changeModalQty(-1)" class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-slate-700 text-xl font-bold hover:bg-emerald-500 hover:text-white transition-colors flex-shrink-0">-</button>
+                        <input type="number" id="modalQty" value="1" min="1" class="flex-1 text-center text-xl font-bold rounded-xl bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <button onclick="changeModalQty(1)" class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-slate-700 text-xl font-bold hover:bg-emerald-500 hover:text-white transition-colors flex-shrink-0">+</button>
                     </div>
                 </div>
 
-                <button onclick="addToCartFromModal()" class="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/40 flex items-center justify-center gap-3 transform active:scale-95">
+                <button onclick="addToCartFromModal()" class="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/40 flex items-center justify-center gap-3 active:scale-95">
                     <i class="fas fa-cart-plus text-xl"></i>
                     <span data-i18n="add_to_cart">أضف إلى السلة</span>
                 </button>
@@ -298,34 +280,37 @@
 
     <!-- Cart Drawer -->
     <div id="cartDrawer" class="modal-hidden fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-md" onclick="closeModal('cartDrawer', event)">
-        <div class="cart-drawer-anim glass w-full max-w-md h-full p-5 sm:p-6 flex flex-col shadow-2xl" onclick="event.stopPropagation()">
+        <div class="cart-drawer-anim glass w-full max-w-md h-full p-5 sm:p-6 flex flex-col" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200 dark:border-slate-700">
                 <h2 class="text-xl font-extrabold flex items-center gap-3">
                     <i class="fas fa-shopping-cart text-emerald-500 text-lg"></i> 
                     <span data-i18n="cart">السلة</span>
-                    <span id="cartCount" class="text-sm font-normal text-gray-500 bg-gray-100 dark:bg-slate-800 px-2 py-1 rounded-lg"></span>
                 </h2>
-                <button onclick="closeModal('cartDrawer')" class="text-2xl text-gray-500 hover:text-red-500 transition-transform hover:rotate-90 hover:scale-110">
+                <button onclick="closeModal('cartDrawer')" class="text-2xl text-gray-500 hover:text-red-500 transition-transform hover:rotate-90">
                     <i class="fas fa-times-circle"></i>
                 </button>
             </div>
 
-            <div id="cartItemsContainer" class="flex-1 overflow-y-auto pr-2 pb-2">
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto pr-2">
                 <div id="cartItems" class="space-y-3"></div>
-                <div id="emptyCart" class="hidden flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400 py-10">
+                <div id="emptyCart" class="hidden flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400 py-20">
                     <div class="float w-24 h-24 mb-6 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
                         <i class="fas fa-shopping-basket text-5xl text-red-400"></i>
                     </div>
                     <h3 class="text-xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="empty_cart_title">سلتك فارغة</h3>
                     <p class="mb-6" data-i18n="empty_cart_desc">أضف بعض المنتجات لإتمام الطلب</p>
-                    <button onclick="closeModal('cartDrawer')" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-all shadow-lg transform hover:-translate-y-1 text-sm">
+                    <button onclick="closeModal('cartDrawer')" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-colors shadow-lg text-sm">
                         <span data-i18n="start_shopping">ابدأ التسوق</span>
                     </button>
                 </div>
             </div>
 
-            <div id="checkoutSection" class="pt-6 border-t border-gray-200 dark:border-slate-700 mt-4 bg-transparent">
-                <button onclick="openCheckoutModal()" class="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/40 flex items-center justify-center gap-3 transform active:scale-95">
+            <div id="cartSummary" class="pt-4 border-t border-gray-200 dark:border-slate-700 mt-4 hidden">
+                <div class="flex justify-between text-sm font-bold mb-4 text-slate-600 dark:text-gray-400">
+                    <span data-i18n="total_items">إجمالي القطع:</span>
+                    <span id="totalPieces">0</span>
+                </div>
+                <button onclick="openCheckoutModal()" class="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg flex items-center justify-center gap-3 active:scale-95">
                     <i class="fas fa-check-circle text-xl"></i>
                     <span data-i18n="checkout">إتمام الشراء</span>
                 </button>
@@ -335,62 +320,85 @@
 
     <!-- Checkout Method Modal -->
     <div id="checkoutModal" class="modal-hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-md" onclick="closeModal('checkoutModal', event)">
-        <div class="glass rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full sm:max-w-md scale-in shadow-2xl relative" onclick="event.stopPropagation()">
-            <button onclick="closeModal('checkoutModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
-                <i class="fas fa-times-circle"></i>
-            </button>
+        <div class="glass rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full sm:max-w-md scale-in shadow-2xl" onclick="event.stopPropagation()">
             <h2 class="text-xl sm:text-2xl font-extrabold mb-8 text-center text-slate-800 dark:text-gray-100" data-i18n="delivery_method">طريقة الاستلام</h2>
             <div class="space-y-4 mb-8">
-                <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md transform hover:-translate-y-1">
+                <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md">
                     <input type="radio" name="deliveryMethod" value="pickup" checked class="w-5 h-5 accent-emerald-500">
                     <div class="flex-1">
-                        <h3 class="font-bold text-lg text-slate-800 dark:text-gray-100" data-i18n="pickup">الاستلام من المحل</h3>
+                        <h3 class="font-bold text-lg" data-i18n="pickup">الاستلام من المحل</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="pickup_desc">استلام طلبك مباشرة من فرعنا</p>
                     </div>
-                    <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-store text-xl text-emerald-500"></i>
-                    </div>
+                    <i class="fas fa-store text-2xl text-emerald-500"></i>
                 </label>
-                <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md transform hover:-translate-y-1">
+                <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-colors has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md">
                     <input type="radio" name="deliveryMethod" value="delivery" class="w-5 h-5 accent-emerald-500">
                     <div class="flex-1">
-                        <h3 class="font-bold text-lg text-slate-800 dark:text-gray-100" data-i18n="home_delivery">توصيل للمنزل</h3>
+                        <h3 class="font-bold text-lg" data-i18n="home_delivery">توصيل للمنزل</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="delivery_desc">سنقوم بتوصيل الطلب إلى باب منزلك</p>
                     </div>
-                    <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-truck-fast text-xl text-emerald-500"></i>
-                    </div>
+                    <i class="fas fa-truck-fast text-2xl text-emerald-500"></i>
                 </label>
             </div>
-            <button onclick="sendWhatsAppOrder()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-3 transform active:scale-95">
+            <button onclick="sendWhatsAppOrder()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-3 active:scale-95">
                 <i class="fab fa-whatsapp text-2xl"></i>
                 <span data-i18n="send_order">إرسال الطلب عبر واتساب</span>
             </button>
         </div>
     </div>
 
+    <!-- Contact Action Modal -->
+    <div id="contactModal" class="modal-hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-md" onclick="closeModal('contactModal', event)">
+        <div class="glass rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full sm:max-w-md scale-in shadow-2xl" onclick="event.stopPropagation()">
+            <h2 id="contactModalTitle" class="text-xl sm:text-2xl font-extrabold mb-2 text-center text-slate-800 dark:text-gray-100"></h2>
+            <p class="text-center text-gray-500 mb-6" data-i18n="contact_choice">اختر طريقة التواصل</p>
+            <div class="grid grid-cols-2 gap-4">
+                <a id="contactCallBtn" href="#" class="flex flex-col items-center gap-2 p-6 bg-blue-500/10 text-blue-600 rounded-2xl hover:bg-blue-500 hover:text-white transition-all shadow-sm hover:shadow-lg active:scale-95">
+                    <i class="fas fa-phone text-3xl"></i>
+                    <span class="font-bold" data-i18n="call">اتصال</span>
+                </a>
+                <a id="contactWhatsBtn" href="#" target="_blank" class="flex flex-col items-center gap-2 p-6 bg-green-500/10 text-green-600 rounded-2xl hover:bg-green-500 hover:text-white transition-all shadow-sm hover:shadow-lg active:scale-95">
+                    <i class="fab fa-whatsapp text-3xl"></i>
+                    <span class="font-bold" data-i18n="whatsapp">واتساب</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 dark:bg-white text-white dark:text-slate-800 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none font-bold text-sm sm:text-base border border-gray-700 dark:border-gray-200">
-        <i class="fas fa-check-circle text-emerald-400 dark:text-emerald-500 text-lg"></i>
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 dark:bg-white text-white dark:text-slate-800 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none font-bold text-sm sm:text-base">
+        <i class="fas fa-check-circle text-emerald-400 dark:text-emerald-500"></i>
         <span id="toastMsg"></span>
     </div>
 
 <script>
     // ==========================================
-    // 1. DATA (Dynamic Fetching via GitHub API)
+    // 1. CONFIGURATION & STATE
     // ==========================================
     let products = [];
-    const imagePath = "item/"; 
-    
+    let cart = [];
+    try {
+        cart = JSON.parse(localStorage.getItem('alnada_cart')) || [];
+    } catch (e) { cart = []; }
+
+    let activeCategory = 'all';
+    let activeSearchQuery = '';
+    let currentLang = localStorage.getItem('alnada_lang') || 'ar';
+    let currentTheme = localStorage.getItem('alnada_theme') || 'light';
+    let currentProduct = null;
+    let selectedUnit = null;
+    let modalHistory = [];
+    let searchDebounceTimer;
+
     // ==========================================
-    // 2. NLP / SYNONYM MAPPING
+    // 2. NLP & REGEX PARSER
     // ==========================================
     const synonymMap = {
         "بلاستك": "بلاستيك", "بلاستكيات": "بلاستيك", "plastik": "بلاستيك", "plastic": "بلاستيك",
         "منديل": "مناديل", "منادل": "مناديل", "tissue": "مناديل", "tissues": "مناديل",
         "اكواب": "أكواب", "cup": "أكواب", "cups": "أكواب",
         "اكياس": "أكياس", "bag": "أكياس", "bags": "أكياس",
-        "علب": "علب", "box": "علب", "boxes": "علب", "منظفات": "منظفات"
+        "علب": "علب", "box": "علب", "boxes": "علب"
     };
 
     function normalizeCategory(cat) {
@@ -399,45 +407,113 @@
         return synonymMap[cat] || synonymMap[lowerCat] || cat;
     }
 
-    // ==========================================
-    // 3. ADVANCED REGEX FILENAME PARSER (تم الإصلاح الجذري هنا)
-    // ==========================================
-    function parseFilename(filename, downloadUrl) {
-        const cleanName = filename.replace(/\.[^/.]+$/, ""); 
+    function parseFilename(filename) {
+        // 1. Remove extension (Supports all modern web image extensions)
+        const cleanName = filename.replace(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico|tiff|tif|avif|jfif|pjpeg|pjp)$/i, "");
         
-        // استخراج التصنيفات
-        const catMatches = cleanName.match(/#([^@#]*)/g) || [];
-        const rawCategories = catMatches
-            .map(c => normalizeCategory(c.substring(1).trim()))
-            .filter(c => c !== ""); 
+        // 2. Extract Categories (Preceded by #, can be anywhere)
+        const catMatches = cleanName.match(/#[^\s#]+/g) || [];
+        const rawCategories = catMatches.map(c => normalizeCategory(c.substring(1)));
         
-        // استخراج الوحدات
-        const unitMatches = cleanName.match(/@([^@#]+)/g) || [];
+        // 3. Extract Units (Preceded by @, strict extraction of name=qty)
+        const unitMatches = cleanName.match(/@[^\s@]+/g) || [];
         const units = unitMatches.map(u => {
-            const unitStr = u.substring(1).trim();
+            const unitStr = u.substring(1);
             const parts = unitStr.split('=');
-            const unitName = parts[0].trim();
-            const qty = parts.length > 1 ? parseInt(parts[1].trim()) || 1 : 1;
+            const unitName = parts[0].replace(/[()]/g, '').trim(); // Clean parentheses just in case
+            const qty = parseInt(parts[1]) || 1;
             return { name: unitName, qty: qty };
         });
         
-        // استخراج الاسم: نقوم بحذف كل التصنيفات والوحدات من الاسم، والمتبقي هو الاسم الفعلي!
-        let name = cleanName.replace(/#([^@#]*)/g, '').replace(/@([^@#]+)/g, '').trim();
-        // إزالة أي مسافات أو شرطات زائدة متبقية في البداية والنهاية
-        name = name.replace(/^[-_\s]+|[-_\s]+$/g, '');
-
+        // 4. Clean Product Name (Remove tags, units, parentheses, extra spaces, dashes)
+        let name = cleanName
+            .replace(/#[^\s#]+/g, '')
+            .replace(/@[^\s@]+/g, '')
+            .replace(/[()]/g, '')
+            .replace(/\s+/g, ' ')
+            .replace(/^[-\s]+|[-\s]+$/g, '')
+            .trim();
+        
         return {
             id: filename,
-            name: name || "منتج",
+            name: name || "منتج غير مسمى",
             categories: [...new Set(rawCategories)],
-            units: units.length > 0 ? units : [{ name: 'قطعة', qty: 1 }],
-            // استخدام رابط التحميل المباشر من جيتهاب لتفادي أي أخطاء في عرض الصور
-            img: downloadUrl || (imagePath + encodeURIComponent(filename))
+            units: units.length > 0 ? units : [{ name: 'قطعة', qty: 1 }]
         };
     }
-    
+
     // ==========================================
-    // 4. SMART FUZZY SEARCH
+    // 3. GITHUB API INTEGRATION
+    // ==========================================
+    async function fetchProducts() {
+        const loadingState = document.getElementById('loadingState');
+        const maintenanceState = document.getElementById('maintenanceState');
+
+        try {
+            // Auto-detect owner/repo or default to mahmoudelsheikh7/store
+            let owner = 'mahmoudelsheikh7';
+            let repo = 'store';
+            if (window.location.hostname.includes('github.io')) {
+                const pathParts = window.location.pathname.split('/').filter(Boolean);
+                if (pathParts.length >= 2) {
+                    owner = pathParts[0];
+                    repo = pathParts[1];
+                }
+            }
+
+            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/item`;
+            const response = await fetch(apiUrl);
+            
+            if (!response.ok) throw new Error("API Error");
+            
+            const data = await response.json();
+            
+            // If folder is empty or not an array
+            if (!Array.isArray(data) || data.length === 0) {
+                throw new Error("Empty Folder");
+            }
+
+            const validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'bmp', 'ico', 'tiff', 'tif', 'avif', 'jfif', 'pjpeg', 'pjp'];
+            const imageFiles = data.filter(file => {
+                const ext = file.name.split('.').pop().toLowerCase();
+                return file.type === 'file' && validExtensions.includes(ext);
+            });
+
+            if (imageFiles.length === 0) throw new Error("No Images");
+
+            products = imageFiles.map(file => {
+                const parsed = parseFilename(file.name);
+                // MANDATORY: Use download_url to prevent URL encoding issues with Arabic chars
+                parsed.img = file.download_url; 
+                return parsed;
+            });
+
+            // Store is active
+            loadingState.classList.add('hidden');
+            document.getElementById('searchContainer').classList.remove('hidden');
+            document.getElementById('cartBtn').classList.remove('hidden');
+            document.getElementById('categorySection').classList.remove('hidden');
+            document.getElementById('corpFooter').classList.remove('hidden');
+            
+            renderCategories();
+            renderProducts();
+            renderCart();
+
+        } catch (error) {
+            // Store Under Maintenance State
+            loadingState.classList.add('hidden');
+            maintenanceState.classList.remove('hidden');
+            maintenanceState.classList.add('flex');
+            document.getElementById('searchContainer').classList.add('hidden');
+            document.getElementById('cartBtn').classList.add('hidden');
+            document.getElementById('categorySection').classList.add('hidden');
+            document.getElementById('productGrid').innerHTML = '';
+            document.getElementById('corpFooter').classList.remove('hidden'); // Keep footer visible
+        }
+    }
+
+    // ==========================================
+    // 4. FUZZY SEARCH (Levenshtein + Debounce)
     // ==========================================
     function levenshtein(a, b) {
         const matrix = [];
@@ -465,139 +541,94 @@
         return false;
     }
 
-    // ==========================================
-    // 5. STATE & UI VARIABLES 
-    // ==========================================
-    let cart = [];
-    try {
-        cart = JSON.parse(localStorage.getItem('alnada_cart')) || [];
-    } catch (e) {
-        cart = [];
+    function handleSearchDebounced() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(() => {
+            activeSearchQuery = document.getElementById('searchInput').value;
+            renderProducts();
+        }, 300); // 300ms debounce
     }
-    
-    let activeCategory = 'all';
-    let activeSearchQuery = '';
-    let searchDebounceTimer = null;
-    let currentLang = localStorage.getItem('alnada_lang') || 'ar';
-    let currentTheme = localStorage.getItem('alnada_theme') || 'light';
-    let currentProduct = null;
-    let selectedUnit = null;
 
+    // ==========================================
+    // 5. i18n & THEMING
+    // ==========================================
     const i18n = {
         ar: {
-            brand_name: "الندى بلاست", brand_sub: "للتجارة والتوزيع", search_placeholder: "ابحث عن منتج...",
+            brand_name: "الندي بلاست", brand_sub: "حلول التغليف منذ 1996", search_placeholder: "ابحث عن منتج...",
             all: "الكل", no_results_title: "لا توجد منتجات مطابقة", no_results_desc: "حاول تعديل البحث أو تصفح الفئات الأخرى",
             show_all: "عرض كل المنتجات", select_unit: "اختر الوحدة:", quantity: "الكمية:", add_to_cart: "أضف إلى السلة",
             cart: "السلة", checkout: "إتمام الشراء", empty_cart_title: "سلتك فارغة", empty_cart_desc: "أضف بعض المنتجات لإتمام الطلب",
             start_shopping: "ابدأ التسوق", delivery_method: "طريقة الاستلام", pickup: "الاستلام من المحل", pickup_desc: "استلام طلبك مباشرة من فرعنا",
             home_delivery: "توصيل للمنزل", delivery_desc: "سنقوم بتوصيل الطلب إلى باب منزلك", send_order: "إرسال الطلب عبر واتساب",
             piece: "قطعة", added_to_cart: "تمت الإضافة للسلة بنجاح", empty_cart_warn: "السلة فارغة! أضف منتجات أولاً.",
-            items_in_cart: "عنصر", total_pieces: "إجمالي القطع الكلية",
-            footer_about_title: "الندى بلاست", 
-            footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.",
-            footer_contact_title: "تواصل معنا", contact_delivery: "الطلب والتوصيل:", contact_sales: "المبيعات:", contact_complaints: "الشكاوى:",
-            footer_payment_title: "طرق الدفع", store_empty_title: "المتجر قيد التحديث", store_empty_desc: "لا توجد منتجات معروضة في المتجر حالياً. نحن نقوم بتحديث الكتالوج الخاص بنا، يرجى التواصل معنا مباشرة للطلبات.",
-            action_title: "تواصل معنا", action_call: "اتصال هاتفي", action_whatsapp: "محادثة واتساب", action_cancel: "إلغاء"
+            total_items: "إجمالي القطع:", loading: "جاري تحميل المنتجات...", maintenance_title: "المتجر قيد الصيانة",
+            maintenance_desc: "نقوم حالياً بتحديث الكتالوج الخاص بنا. يرجى العودة لاحقاً.", contact_choice: "اختر طريقة التواصل",
+            call: "اتصال", whatsapp: "واتساب", footer_history: "منذ 1996، الندي بلاست هي شركة رائدة في توفير حلول التغليف والتجارة في مصر. نقدم منتجات عالية الجودة لتلبية جميع احتياجات عملك.",
+            footer_contacts: "تواصل معنا", orders_dept: "قسم الطلبات والتوصيل:", sales_dept: "قسم المبيعات:", complaints_dept: "قسم الشكاوى:",
+            payment_methods: "طرق الدفع"
         },
         en: {
-            brand_name: "Al-Nada Plast", brand_sub: "Trading & Distribution", search_placeholder: "Search for product...",
+            brand_name: "Al-Nada Plast", brand_sub: "Packaging Solutions Since 1996", search_placeholder: "Search for product...",
             all: "All", no_results_title: "No matching products", no_results_desc: "Try adjusting your search or browse other categories",
             show_all: "Show All Products", select_unit: "Select Unit:", quantity: "Quantity:", add_to_cart: "Add to Cart",
             cart: "Cart", checkout: "Checkout", empty_cart_title: "Your cart is empty", empty_cart_desc: "Add some products to complete your order",
             start_shopping: "Start Shopping", delivery_method: "Delivery Method", pickup: "Pickup from Store", pickup_desc: "Pick up your order directly from our branch",
             home_delivery: "Home Delivery", delivery_desc: "We will deliver the order to your doorstep", send_order: "Send Order via WhatsApp",
             piece: "Piece", added_to_cart: "Added to cart successfully", empty_cart_warn: "Cart is empty! Add products first.",
-            items_in_cart: "items", total_pieces: "Total Pieces",
-            footer_about_title: "Al-Nada Plast", 
-            footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996. Our commitment is to offer excellent service to our clients nationwide.",
-            footer_contact_title: "Contact Us", contact_delivery: "Orders & Delivery:", contact_sales: "Sales:", contact_complaints: "Complaints:",
-            footer_payment_title: "Payment Methods", store_empty_title: "Store is Updating", store_empty_desc: "There are currently no products available online. We are updating our catalog, please contact us directly for orders.",
-            action_title: "Contact Us", action_call: "Phone Call", action_whatsapp: "WhatsApp Chat", action_cancel: "Cancel"
+            total_items: "Total Pieces:", loading: "Loading products...", maintenance_title: "Store Under Maintenance",
+            maintenance_desc: "We are currently updating our catalog. Please check back later.", contact_choice: "Choose contact method",
+            call: "Call", whatsapp: "WhatsApp", footer_history: "Since 1996, Al-Nada Plast has been a leading provider of packaging solutions and trading in Egypt. We offer high-quality products to meet all your business needs.",
+            footer_contacts: "Contact Us", orders_dept: "Orders & Delivery:", sales_dept: "Sales Dept:", complaints_dept: "Complaints Dept:",
+            payment_methods: "Payment Methods"
         }
     };
 
-    // ==========================================
-    // 6. GITHUB API FETCHER
-    // ==========================================
-    async function loadProductsFromGitHub() {
-        let owner = 'mahmoudelsheikh7'; 
-        let repo = 'store'; 
-
-        if (window.location.hostname.includes('.github.io')) {
-            owner = window.location.hostname.split('.')[0];
-            const pathParts = window.location.pathname.split('/');
-            if (pathParts.length > 1 && pathParts[1] !== '') {
-                repo = pathParts[1];
-            }
-        }
-
-        try {
-            const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/item`);
-            
-            if (!response.ok) {
-                throw new Error('لا يمكن الوصول للمجلد');
-            }
-            
-            const files = await response.json();
-            
-            const imageFiles = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico|tiff|tif|avif|jfif|pjpeg|pjp)$/i));
-            // تمرير file.download_url لضمان عمل الصورة دائماً
-            products = imageFiles.map(file => parseFilename(file.name, file.download_url));
-            
-        } catch (error) {
-            console.warn("المتجر يعمل محلياً أو لا يمكن الوصول لـ GitHub API.", error);
-            products = []; 
-        }
-
-        document.getElementById('globalLoadingState').classList.add('hidden');
-        updateUI();
-    }
-
-    // ==========================================
-    // 7. UI RENDERING FUNCTIONS
-    // ==========================================
     function t(key) { return i18n[currentLang][key] || key; }
 
     function updateUI() {
         document.documentElement.lang = currentLang;
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
-        document.body.className = currentLang === 'ar' ? 'font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-10' : 'font-en dark:text-gray-100 min-h-screen overflow-x-hidden pb-10';
+        document.body.className = currentLang === 'ar' ? 'font-ar dark:text-gray-100 min-h-screen overflow-x-hidden flex flex-col' : 'font-en dark:text-gray-100 min-h-screen overflow-x-hidden flex flex-col';
         
-        document.querySelectorAll('.dir-ltr').forEach(el => el.style.direction = 'ltr');
         document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
         document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-ph')));
+        
         document.getElementById('langToggleBtn').innerText = currentLang === 'ar' ? 'EN' : 'ع';
         
-        if (products.length === 0) {
-            document.getElementById('shopMainWrapper').classList.add('hidden');
-            document.getElementById('searchContainer').classList.add('hidden');
-            document.getElementById('cartBtnGlobal').classList.add('hidden');
-            document.getElementById('globalEmptyState').classList.remove('hidden');
-            document.getElementById('globalEmptyState').classList.add('flex');
-        } else {
-            document.getElementById('globalEmptyState').classList.add('hidden');
-            document.getElementById('globalEmptyState').classList.remove('flex');
-            document.getElementById('shopMainWrapper').classList.remove('hidden');
-            document.getElementById('searchContainer').classList.remove('hidden');
-            document.getElementById('cartBtnGlobal').classList.remove('hidden');
+        if (products.length > 0) {
             renderCategories();
             renderProducts();
-            renderCart();
         }
+        renderCart();
     }
 
+    function toggleLang() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        localStorage.setItem('alnada_lang', currentLang);
+        updateUI();
+    }
+
+    function toggleTheme() {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        localStorage.setItem('alnada_theme', currentTheme);
+        document.documentElement.classList.toggle('dark', currentTheme === 'dark');
+    }
+
+    // ==========================================
+    // 6. UI RENDERING
+    // ==========================================
     function renderCategories() {
         const allCats = new Set();
         products.forEach(p => p.categories.forEach(c => allCats.add(c)));
         const categoryList = document.getElementById('categoryList');
         
-        let html = `<li class="flex-shrink-0 cursor-pointer px-5 py-2 rounded-full font-bold transition-all duration-300 flex items-center gap-2 whitespace-nowrap text-sm select-none ${activeCategory === 'all' ? 'bg-emerald-500 text-white shadow-md transform scale-105' : 'bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-gray-200 hover:bg-emerald-500/10 hover:text-emerald-600'}" onclick="filterByCategory('all')">
+        let html = `<li class="flex-shrink-0 cursor-pointer px-5 py-2 rounded-full font-bold transition-all flex items-center gap-2 whitespace-nowrap text-sm select-none ${activeCategory === 'all' ? 'bg-emerald-500 text-white shadow-md' : 'bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-gray-200 hover:bg-emerald-500/10'}" onclick="filterByCategory('all')">
                         <i class="fas fa-border-all text-xs"></i> <span>${t('all')}</span>
                     </li>`;
 
         [...allCats].sort().forEach(cat => {
-            html += `<li class="flex-shrink-0 cursor-pointer px-5 py-2 rounded-full font-bold transition-all duration-300 flex items-center gap-2 whitespace-nowrap text-sm select-none ${activeCategory === cat ? 'bg-emerald-500 text-white shadow-md transform scale-105' : 'bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-gray-200 hover:bg-emerald-500/10 hover:text-emerald-600'}" onclick="filterByCategory('${cat}')">
+            html += `<li class="flex-shrink-0 cursor-pointer px-5 py-2 rounded-full font-bold transition-all flex items-center gap-2 whitespace-nowrap text-sm select-none ${activeCategory === cat ? 'bg-emerald-500 text-white shadow-md' : 'bg-white/70 dark:bg-slate-800/70 text-slate-700 dark:text-gray-200 hover:bg-emerald-500/10'}" onclick="filterByCategory('${cat}')">
                         <i class="fas fa-tag text-xs"></i> ${cat}
                     </li>`;
         });
@@ -606,8 +637,6 @@
     }
 
     function renderProducts() {
-        if (products.length === 0) return;
-
         const grid = document.getElementById('productGrid');
         const noResults = document.getElementById('noResults');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -631,16 +660,13 @@
         noResults.classList.remove('flex');
         
         grid.innerHTML = filtered.map((p, index) => `
-            <div class="fade-in-up glass rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group flex flex-col h-full" style="animation-delay: ${index * 0.04}s" onclick="openProductModal('${p.id}')">
+            <div class="fade-in-up glass rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group" style="animation-delay: ${index * 0.05}s" onclick="openProductModal('${p.id}')">
                 <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl overflow-hidden mb-2 sm:mb-3 aspect-square flex items-center justify-center p-2 sm:p-3 relative">
                     <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/300x300/e2e8f0/64748b?text=Image'">
-                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-xl sm:rounded-2xl backdrop-blur-[2px]">
-                        <span class="bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-300 shadow-lg"><i class="fas fa-plus"></i></span>
-                    </div>
                 </div>
-                <h3 class="font-bold text-xs sm:text-base text-center text-slate-800 dark:text-gray-100 line-clamp-2 px-1 flex-1 leading-snug">${p.name}</h3>
-                <div class="flex flex-wrap justify-center gap-1 mt-2 h-5 sm:h-6 overflow-hidden">
-                    ${p.categories.slice(0,2).map(c => `<span class="text-[9px] sm:text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-full font-semibold shadow-sm">${c}</span>`).join('')}
+                <h3 class="font-bold text-xs sm:text-base text-center text-slate-800 dark:text-gray-100 truncate px-1">${p.name}</h3>
+                <div class="flex flex-wrap justify-center gap-1 mt-1 sm:mt-2 h-5 sm:h-6 overflow-hidden">
+                    ${p.categories.slice(0,2).map(c => `<span class="text-[9px] sm:text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-full">${c}</span>`).join('')}
                 </div>
             </div>
         `).join('');
@@ -649,69 +675,95 @@
     function renderCart() {
         const cartItems = document.getElementById('cartItems');
         const emptyCart = document.getElementById('emptyCart');
-        const checkoutSection = document.getElementById('checkoutSection');
+        const cartSummary = document.getElementById('cartSummary');
         const badge = document.getElementById('cartBadge');
-        const cartCount = document.getElementById('cartCount');
-        const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+        const totalPiecesEl = document.getElementById('totalPieces');
+        
+        const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+        const totalPieces = cart.reduce((sum, item) => sum + (item.qty * item.unit.qty), 0);
 
         if (cart.length === 0) {
             emptyCart.classList.remove('hidden');
             emptyCart.classList.add('flex');
             cartItems.innerHTML = '';
-            checkoutSection.classList.add('hidden');
+            cartSummary.classList.add('hidden');
             badge.classList.add('hidden');
-            cartCount.innerText = '';
         } else {
             emptyCart.classList.add('hidden');
             emptyCart.classList.remove('flex');
-            checkoutSection.classList.remove('hidden');
+            cartSummary.classList.remove('hidden');
             badge.classList.remove('hidden');
-            badge.innerText = totalQty;
-            cartCount.innerText = `(${cart.length} ${t('items_in_cart')})`;
+            badge.innerText = totalItems;
+            totalPiecesEl.innerText = totalPieces;
 
-            cartItems.innerHTML = cart.map((item, index) => {
-                const piecesTotal = item.qty * item.unit.qty;
-                return `
-                <div class="flex gap-3 bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 fade-in-up hover:shadow-md transition-shadow">
-                    <img src="${item.img}" loading="lazy" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl bg-white dark:bg-slate-700 p-1 flex-shrink-0" onerror="this.src='https://placehold.co/100x100/e2e8f0/64748b?text=Img'">
-                    <div class="flex-1 min-w-0 flex flex-col justify-center">
-                        <h4 class="font-bold text-sm sm:text-base truncate text-slate-800 dark:text-gray-100">${item.name}</h4>
-                        <p class="text-xs text-emerald-600 dark:text-emerald-400 mb-2 font-semibold flex items-center gap-1">
-                            <i class="fas fa-box"></i> ${item.unit.name} 
-                            <span class="text-gray-400 font-normal">(${piecesTotal} ${t('piece')})</span>
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="flex gap-3 bg-white/60 dark:bg-slate-800/60 p-3 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 fade-in-up">
+                    <img src="${item.img}" loading="lazy" class="w-16 h-16 object-contain rounded-xl bg-white dark:bg-slate-700 p-1 flex-shrink-0" onerror="this.src='https://placehold.co/100x100/e2e8f0/64748b?text=Img'">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-sm truncate text-slate-800 dark:text-gray-100">${item.name}</h4>
+                        <p class="text-xs text-emerald-600 dark:text-emerald-400 mb-2 font-semibold">
+                            <i class="fas fa-box ml-1"></i> ${item.unit.name} (${item.unit.qty} ${t('piece')})
                         </p>
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-1 bg-gray-100 dark:bg-slate-700 rounded-lg p-1 shadow-inner">
-                                <button onclick="changeCartQty(${index}, -1)" class="w-7 h-7 rounded-md bg-white dark:bg-slate-800 text-sm font-bold hover:bg-emerald-500 hover:text-white transition-colors flex items-center justify-center shadow-sm">-</button>
-                                <span class="font-bold text-sm w-8 text-center select-none">${item.qty}</span>
-                                <button onclick="changeCartQty(${index}, 1)" class="w-7 h-7 rounded-md bg-white dark:bg-slate-800 text-sm font-bold hover:bg-emerald-500 hover:text-white transition-colors flex items-center justify-center shadow-sm">+</button>
+                            <div class="flex items-center gap-2 bg-gray-100 dark:bg-slate-700 rounded-lg p-1">
+                                <button onclick="changeCartQty(${index}, -1)" class="w-6 h-6 rounded-md bg-white dark:bg-slate-800 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-colors">-</button>
+                                <span class="font-bold text-sm w-6 text-center">${item.qty}</span>
+                                <button onclick="changeCartQty(${index}, 1)" class="w-6 h-6 rounded-md bg-white dark:bg-slate-800 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-colors">+</button>
                             </div>
-                            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 w-8 h-8 rounded-full flex items-center justify-center transition-colors">
+                            <button onclick="removeFromCart(${index})" class="text-red-400 hover:text-red-600 text-sm transition-colors p-2">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
                     </div>
                 </div>
-            `}).join('');
+            `).join('');
         }
     }
 
     // ==========================================
-    // 8. EVENT HANDLERS & LOGIC
+    // 7. MODAL & HISTORY API LOGIC
     // ==========================================
-    function toggleLang() {
-        currentLang = currentLang === 'ar' ? 'en' : 'ar';
-        localStorage.setItem('alnada_lang', currentLang);
-        updateUI();
+    function openModal(id) {
+        document.getElementById(id).classList.remove('modal-hidden');
+        document.body.style.overflow = 'hidden';
+        modalHistory.push(id);
+        window.history.pushState({ modal: id }, '', `#${id}`);
     }
 
-    function toggleTheme() {
-        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-        localStorage.setItem('alnada_theme', currentTheme);
-        document.documentElement.classList.toggle('dark', currentTheme === 'dark');
+    function closeModal(id, e) {
+        if (e && e.target !== e.currentTarget) return;
+        // If this modal is the top of the history, go back to trigger popstate
+        if (modalHistory[modalHistory.length - 1] === id) {
+            window.history.back();
+        } else {
+            // Fallback
+            document.getElementById(id).classList.add('modal-hidden');
+            document.body.style.overflow = '';
+            modalHistory = modalHistory.filter(m => m !== id);
+        }
     }
 
-    function debouncedSearch() {
+    window.addEventListener('popstate', (e) => {
+        if (modalHistory.length > 0) {
+            const lastModal = modalHistory.pop();
+            document.getElementById(lastModal).classList.add('modal-hidden');
+            if (modalHistory.length === 0) {
+                document.body.style.overflow = '';
+            }
+        }
+    });
+
+    // Escape key listener
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modalHistory.length > 0) {
+            closeModal(modalHistory[modalHistory.length - 1]);
+        }
+    });
+
+    // ==========================================
+    // 8. APP LOGIC & EVENT HANDLERS
+    // ==========================================
+    function handleSearchDebounced() {
         clearTimeout(searchDebounceTimer);
         searchDebounceTimer = setTimeout(() => {
             activeSearchQuery = document.getElementById('searchInput').value;
@@ -723,22 +775,21 @@
         document.getElementById('searchInput').value = '';
         activeSearchQuery = '';
         renderProducts();
-        document.getElementById('searchInput').focus();
     }
 
     function resetFilters() {
         clearSearch();
         activeCategory = 'all';
-        renderCategories();
-        renderProducts();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (products.length > 0) {
+            renderCategories();
+            renderProducts();
+        }
     }
 
     function filterByCategory(cat) {
         activeCategory = cat;
         renderCategories();
         renderProducts();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function openProductModal(id) {
@@ -747,12 +798,12 @@
 
         document.getElementById('modalImg').src = currentProduct.img;
         document.getElementById('modalName').innerText = currentProduct.name;
-        document.getElementById('modalCategories').innerHTML = currentProduct.categories.map(c => `<span class="text-[10px] px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-full font-bold shadow-sm">${c}</span>`).join('');
+        document.getElementById('modalCategories').innerHTML = currentProduct.categories.map(c => `<span class="text-[10px] px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 rounded-full font-bold">${c}</span>`).join('');
         
         const unitsContainer = document.getElementById('modalUnits');
         unitsContainer.innerHTML = currentProduct.units.map((u, idx) => `
-            <label class="flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-all border-gray-200 dark:border-slate-700 hover:border-emerald-500 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md transform hover:-translate-y-0.5">
-                <span class="font-bold flex items-center gap-2 text-sm sm:text-base text-slate-800 dark:text-gray-100">
+            <label class="flex items-center justify-between p-3 rounded-xl border-2 cursor-pointer transition-all border-gray-200 dark:border-slate-700 hover:border-emerald-500 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-sm">
+                <span class="font-bold flex items-center gap-2 text-sm sm:text-base">
                     <i class="fas fa-cubes text-emerald-500"></i> 
                     ${u.name} <span class="text-gray-400 text-xs sm:text-sm font-normal">(${u.qty} ${t('piece')})</span>
                 </span>
@@ -777,39 +828,28 @@
         input.value = Math.max(1, val + delta);
     }
 
-    function animateBadge() {
-        const badge = document.getElementById('cartBadge');
-        const icon = document.getElementById('cartIconAnim');
-        badge.classList.remove('animate-pop');
-        void badge.offsetWidth; 
-        badge.classList.add('animate-pop');
-        icon.classList.add('scale-125');
-        setTimeout(() => icon.classList.remove('scale-125'), 300);
-    }
-
     function addToCartFromModal() {
         const qty = parseInt(document.getElementById('modalQty').value) || 1;
         if (!currentProduct || !selectedUnit) return;
         
-        const existingItemIndex = cart.findIndex(item => item.name === currentProduct.name && item.unit.name === selectedUnit.name);
-        
-        if(existingItemIndex > -1) {
-            cart[existingItemIndex].qty += qty;
-        } else {
-            cart.push({ 
-                id: currentProduct.id + Date.now(), 
-                name: currentProduct.name, 
-                img: currentProduct.img, 
-                unit: selectedUnit, 
-                qty: qty 
-            });
-        }
-        
+        cart.push({ 
+            id: currentProduct.id + Date.now(), 
+            name: currentProduct.name, 
+            img: currentProduct.img, 
+            unit: selectedUnit, 
+            qty: qty 
+        });
         localStorage.setItem('alnada_cart', JSON.stringify(cart));
         renderCart();
+        
+        // Badge Pop Animation
+        const badge = document.getElementById('cartBadge');
+        badge.classList.remove('badge-pop');
+        void badge.offsetWidth; // Trigger reflow to restart animation
+        badge.classList.add('badge-pop');
+        
         closeModal('productModal');
         showToast(t('added_to_cart'));
-        animateBadge();
     }
 
     function changeCartQty(index, delta) {
@@ -826,125 +866,79 @@
         renderCart();
     }
 
-    function openCheckoutModal() {
-        if (cart.length === 0) { showToast(t('empty_cart_warn')); return; }
-        // For checkout, just close cart visually without popping history to avoid mess
-        document.getElementById('cartDrawer').classList.remove('modal-visible');
-        document.getElementById('cartDrawer').classList.add('modal-hidden');
-        openModal('checkoutModal');
-    }
-
-    function sendWhatsAppOrder() {
-        const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
-        const methodText = method === 'pickup' ? (currentLang === 'ar' ? 'الاستلام من المحل' : 'Pickup from Store') : (currentLang === 'ar' ? 'توصيل للمنزل' : 'Home Delivery');
-        
-        let msg = `🛍️ *${t('brand_name')} - ${currentLang === 'ar' ? 'طلب جديد' : 'New Order'}*\n`;
-        msg += `➖➖➖➖➖➖➖➖➖➖\n`;
-        msg += `📍 *${currentLang === 'ar' ? 'طريقة الاستلام' : 'Delivery Method'}:* ${methodText}\n\n`;
-        msg += `📦 *${currentLang === 'ar' ? 'المنتجات' : 'Items'}:*\n`;
-        
-        let totalPieces = 0;
-        cart.forEach((item, i) => {
-            const piecesText = currentLang === 'ar' ? 'قطعة' : 'pcs';
-            const itemTotalPieces = item.qty * item.unit.qty;
-            totalPieces += itemTotalPieces;
-            
-            msg += `*${i + 1}. ${item.name}*\n`;
-            msg += `   🛒 ${item.qty} × ${item.unit.name} ➡️ (${itemTotalPieces} ${piecesText})\n`;
-        });
-
-        msg += `➖➖➖➖➖➖➖➖➖➖\n`;
-        msg += `📊 *${t('total_pieces')}:* ${totalPieces} ${currentLang === 'ar' ? 'قطعة' : 'pcs'}\n`;
-        msg += `⏰ *${currentLang === 'ar' ? 'وقت الطلب' : 'Time'}:* ${new Date().toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US', { hour12: true, month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })}\n`;
-
-        window.open(`https://wa.me/201112611103?text=${encodeURIComponent(msg)}`, '_blank');
-    }
-
-    // ==========================================
-    // 9. MODALS & HISTORY API (الإصلاح الجذري لزر الرجوع)
-    // ==========================================
-    
-    // إغلاق كل النوافذ عند الضغط على زر الرجوع في الهاتف أو المتصفح
-    window.addEventListener('popstate', function (event) {
-        let modals = ['productModal', 'cartDrawer', 'checkoutModal', 'actionModal'];
-        let anyClosed = false;
-        modals.forEach(id => {
-            let el = document.getElementById(id);
-            if (el.classList.contains('modal-visible')) {
-                el.classList.remove('modal-visible');
-                el.classList.add('modal-hidden');
-                anyClosed = true;
-            }
-        });
-        if (anyClosed) {
-            document.body.style.overflow = 'auto';
-        }
-    });
-
-    function openModal(id) {
-        const modal = document.getElementById(id);
-        modal.classList.remove('modal-hidden');
-        modal.classList.add('modal-visible');
-        document.body.style.overflow = 'hidden';
-        
-        // تسجيل هذه النافذة كـ "خطوة" في تاريخ المتصفح
-        window.history.pushState({ modal: id }, "", "#" + id);
-    }
-    
-    function closeModal(id, e) {
-        if (e && e.target !== e.currentTarget) return;
-        const modal = document.getElementById(id);
-        modal.classList.remove('modal-visible');
-        modal.classList.add('modal-hidden');
-        document.body.style.overflow = 'auto';
-        
-        // تنظيف الرابط والرجوع بشكل برمجي دون الخروج من الموقع
-        if (window.location.hash === "#" + id) {
-            window.history.back(); 
-        }
-    }
-    
     function toggleCart() { 
         renderCart(); 
         openModal('cartDrawer'); 
     }
 
-    function openActionModal(number) {
-        const modal = document.getElementById('actionModal');
-        document.getElementById('callLink').href = `tel:${number}`;
-        document.getElementById('waLink').href = `https://wa.me/20${number.replace(/^0/, '')}`;
-        openModal('actionModal');
+    function openCheckoutModal() {
+        if (cart.length === 0) { showToast(t('empty_cart_warn')); return; }
+        closeModal('cartDrawer');
+        setTimeout(() => openModal('checkoutModal'), 100); // Slight delay for smooth transition
     }
 
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            ['productModal', 'cartDrawer', 'checkoutModal', 'actionModal'].forEach(id => {
-                if(document.getElementById(id).classList.contains('modal-visible')){
-                    closeModal(id);
-                }
-            });
-        }
-    });
+    function openContactModal(type, number) {
+        const titles = {
+            orders: currentLang === 'ar' ? 'قسم الطلبات والتوصيل' : 'Orders & Delivery',
+            sales: currentLang === 'ar' ? 'قسم المبيعات' : 'Sales Department',
+            complaints: currentLang === 'ar' ? 'قسم الشكاوى' : 'Complaints Department'
+        };
+        document.getElementById('contactModalTitle').innerText = titles[type] || t('footer_contacts');
+        
+        const formattedNum = number.replace(/^0/, '20'); // Convert 01... to 201...
+        document.getElementById('contactCallBtn').href = `tel:${number}`;
+        document.getElementById('contactWhatsBtn').href = `https://wa.me/${formattedNum}`;
+        
+        openModal('contactModal');
+    }
 
-    let toastTimeout;
+    function sendWhatsAppOrder() {
+        const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
+        const methodText = method === 'pickup' ? (currentLang === 'ar' ? 'الاستلام من المحل 🏪' : 'Store Pickup 🏪') : (currentLang === 'ar' ? 'توصيل للمنزل 🚚' : 'Home Delivery 🚚');
+        
+        const now = new Date();
+        const dateStr = now.toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US');
+        
+        let msg = `🛒 *${t('brand_name')} - ${currentLang === 'ar' ? 'طلب جديد' : 'New Order'}*\n`;
+        msg += `📅 *${currentLang === 'ar' ? 'التاريخ' : 'Date'}:* ${dateStr}\n`;
+        msg += `🚚 *${currentLang === 'ar' ? 'طريقة الاستلام' : 'Delivery Method'}:* ${methodText}\n\n`;
+        msg += `📦 *${currentLang === 'ar' ? 'المنتجات' : 'Items'}:*\n`;
+        
+        let grandTotal = 0;
+        
+        cart.forEach((item, i) => {
+            const lineTotalPieces = item.qty * item.unit.qty;
+            grandTotal += lineTotalPieces;
+            msg += `${i + 1}. *${item.name}*\n`;
+            msg += `   • ${currentLang === 'ar' ? 'الوحدة' : 'Unit'}: ${item.unit.name} (${item.unit.qty} ${t('piece')})\n`;
+            msg += `   • ${currentLang === 'ar' ? 'الكمية' : 'Qty'}: ${item.qty}\n`;
+            msg += `   • ${currentLang === 'ar' ? 'إجمالي القطع' : 'Total Pieces'}: ${lineTotalPieces} ${t('piece')}\n\n`;
+        });
+
+        msg += `🧮 *${currentLang === 'ar' ? 'إجمالي القطع الكلي' : 'Grand Total Pieces'}: ${grandTotal} ${t('piece')}*`;
+        
+        window.open(`https://wa.me/201112611103?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
     function showToast(msg) {
         const toast = document.getElementById('toast');
         document.getElementById('toastMsg').innerText = msg;
-        
-        clearTimeout(toastTimeout);
         toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
         toast.classList.add('opacity-100', 'translate-y-0');
-        
-        toastTimeout = setTimeout(() => {
+        clearTimeout(window.toastTimer);
+        window.toastTimer = setTimeout(() => {
             toast.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
             toast.classList.remove('opacity-100', 'translate-y-0');
         }, 3000);
     }
 
+    // ==========================================
+    // 9. HORIZONTAL DRAG-TO-SCROLL LOGIC
+    // ==========================================
     function initDragScroll() {
         const slider = document.getElementById('categoryList');
-        if (!slider) return;
-        let isDown = false, startX, scrollLeft, hasMoved = false;
+        let isDown = false;
+        let startX, scrollLeft, hasMoved = false;
 
         const start = (e) => {
             isDown = true;
@@ -959,16 +953,19 @@
             if (!isDown) return;
             const pageX = e.touches ? e.touches[0].pageX : e.pageX;
             const x = pageX - slider.getBoundingClientRect().left;
-            const walk = (x - startX) * 1.5; 
+            const walk = (x - startX);
             
             if (Math.abs(walk) > 5) {
                 hasMoved = true;
-                if (e.cancelable) e.preventDefault(); 
+                if (e.cancelable) e.preventDefault();
                 slider.scrollLeft = scrollLeft - walk;
             }
         };
 
-        const end = () => { isDown = false; slider.classList.remove('dragging'); };
+        const end = () => {
+            isDown = false;
+            slider.classList.remove('dragging');
+        };
 
         slider.addEventListener('mousedown', start);
         slider.addEventListener('touchstart', start, { passive: true });
@@ -977,14 +974,32 @@
         slider.addEventListener('mouseup', end);
         slider.addEventListener('mouseleave', end);
         slider.addEventListener('touchend', end);
+
         slider.addEventListener('click', (e) => {
-            if (hasMoved) { e.preventDefault(); e.stopPropagation(); hasMoved = false; }
+            if (hasMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+                hasMoved = false;
+            }
         }, true);
     }
 
-    // Init App
-    loadProductsFromGitHub();
-    initDragScroll();
+    // ==========================================
+    // 10. INITIALIZATION
+    // ==========================================
+    function init() {
+        // Apply theme and lang immediately
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.classList.toggle('dark', currentTheme === 'dark');
+        document.body.className = currentLang === 'ar' ? 'font-ar dark:text-gray-100 min-h-screen overflow-x-hidden flex flex-col' : 'font-en dark:text-gray-100 min-h-screen overflow-x-hidden flex flex-col';
+        
+        updateUI();
+        fetchProducts();
+        initDragScroll();
+    }
+
+    init();
 </script>
 </body>
 </html>
