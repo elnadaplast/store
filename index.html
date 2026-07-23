@@ -400,16 +400,18 @@
     }
 
     // ==========================================
-    // 3. ADVANCED REGEX FILENAME PARSER
+    // 3. ADVANCED REGEX FILENAME PARSER (تم الإصلاح الجذري هنا)
     // ==========================================
-    function parseFilename(filename) {
+    function parseFilename(filename, downloadUrl) {
         const cleanName = filename.replace(/\.[^/.]+$/, ""); 
         
+        // استخراج التصنيفات
         const catMatches = cleanName.match(/#([^@#]*)/g) || [];
         const rawCategories = catMatches
             .map(c => normalizeCategory(c.substring(1).trim()))
             .filter(c => c !== ""); 
         
+        // استخراج الوحدات
         const unitMatches = cleanName.match(/@([^@#]+)/g) || [];
         const units = unitMatches.map(u => {
             const unitStr = u.substring(1).trim();
@@ -419,16 +421,18 @@
             return { name: unitName, qty: qty };
         });
         
-        let name = cleanName.split(/[@#]/)[0].trim();
-        
-        const encodedFilename = encodeURIComponent(filename).replace(/%20/g, '+');
+        // استخراج الاسم: نقوم بحذف كل التصنيفات والوحدات من الاسم، والمتبقي هو الاسم الفعلي!
+        let name = cleanName.replace(/#([^@#]*)/g, '').replace(/@([^@#]+)/g, '').trim();
+        // إزالة أي مسافات أو شرطات زائدة متبقية في البداية والنهاية
+        name = name.replace(/^[-_\s]+|[-_\s]+$/g, '');
 
         return {
             id: filename,
             name: name || "منتج",
             categories: [...new Set(rawCategories)],
             units: units.length > 0 ? units : [{ name: 'قطعة', qty: 1 }],
-            img: imagePath + encodedFilename
+            // استخدام رابط التحميل المباشر من جيتهاب لتفادي أي أخطاء في عرض الصور
+            img: downloadUrl || (imagePath + encodeURIComponent(filename))
         };
     }
     
@@ -513,7 +517,7 @@
     };
 
     // ==========================================
-    // 6. GITHUB API FETCHER (UPDATED)
+    // 6. GITHUB API FETCHER
     // ==========================================
     async function loadProductsFromGitHub() {
         let owner = 'mahmoudelsheikh7'; 
@@ -536,9 +540,9 @@
             
             const files = await response.json();
             
-            // التحديث هنا: دعم جميع صيغ الصور (jpg, png, webp, svg, gif, bmp, ico, tiff, avif والمزيد)
             const imageFiles = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico|tiff|tif|avif|jfif|pjpeg|pjp)$/i));
-            products = imageFiles.map(file => parseFilename(file.name));
+            // تمرير file.download_url لضمان عمل الصورة دائماً
+            products = imageFiles.map(file => parseFilename(file.name, file.download_url));
             
         } catch (error) {
             console.warn("المتجر يعمل محلياً أو لا يمكن الوصول لـ GitHub API.", error);
@@ -824,7 +828,9 @@
 
     function openCheckoutModal() {
         if (cart.length === 0) { showToast(t('empty_cart_warn')); return; }
-        closeModal('cartDrawer');
+        // For checkout, just close cart visually without popping history to avoid mess
+        document.getElementById('cartDrawer').classList.remove('modal-visible');
+        document.getElementById('cartDrawer').classList.add('modal-hidden');
         openModal('checkoutModal');
     }
 
@@ -854,12 +860,35 @@
         window.open(`https://wa.me/201112611103?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
-    // Modal Actions
+    // ==========================================
+    // 9. MODALS & HISTORY API (الإصلاح الجذري لزر الرجوع)
+    // ==========================================
+    
+    // إغلاق كل النوافذ عند الضغط على زر الرجوع في الهاتف أو المتصفح
+    window.addEventListener('popstate', function (event) {
+        let modals = ['productModal', 'cartDrawer', 'checkoutModal', 'actionModal'];
+        let anyClosed = false;
+        modals.forEach(id => {
+            let el = document.getElementById(id);
+            if (el.classList.contains('modal-visible')) {
+                el.classList.remove('modal-visible');
+                el.classList.add('modal-hidden');
+                anyClosed = true;
+            }
+        });
+        if (anyClosed) {
+            document.body.style.overflow = 'auto';
+        }
+    });
+
     function openModal(id) {
         const modal = document.getElementById(id);
         modal.classList.remove('modal-hidden');
         modal.classList.add('modal-visible');
         document.body.style.overflow = 'hidden';
+        
+        // تسجيل هذه النافذة كـ "خطوة" في تاريخ المتصفح
+        window.history.pushState({ modal: id }, "", "#" + id);
     }
     
     function closeModal(id, e) {
@@ -868,6 +897,11 @@
         modal.classList.remove('modal-visible');
         modal.classList.add('modal-hidden');
         document.body.style.overflow = 'auto';
+        
+        // تنظيف الرابط والرجوع بشكل برمجي دون الخروج من الموقع
+        if (window.location.hash === "#" + id) {
+            window.history.back(); 
+        }
     }
     
     function toggleCart() { 
