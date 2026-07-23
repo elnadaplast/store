@@ -401,18 +401,15 @@
 
     // ==========================================
     // 3. ADVANCED REGEX FILENAME PARSER
-    // تم التحسين للتعامل مع الأسماء المعقدة المرفوعة مثل: معطر جو فريدة@عبوة@كرتونه(6 عبوات)#.jpg
     // ==========================================
     function parseFilename(filename) {
         const cleanName = filename.replace(/\.[^/.]+$/, ""); 
         
-        // استخراج التصنيفات (استبعاد التصنيفات الفارغة في حال كتابة # فقط)
         const catMatches = cleanName.match(/#([^@#]*)/g) || [];
         const rawCategories = catMatches
             .map(c => normalizeCategory(c.substring(1).trim()))
             .filter(c => c !== ""); 
         
-        // استخراج الوحدات (التعامل مع أقواس أو مسافات دون أخطاء)
         const unitMatches = cleanName.match(/@([^@#]+)/g) || [];
         const units = unitMatches.map(u => {
             const unitStr = u.substring(1).trim();
@@ -422,10 +419,8 @@
             return { name: unitName, qty: qty };
         });
         
-        // استخراج الاسم الفعلي للمنتج قبل أول @ أو #
         let name = cleanName.split(/[@#]/)[0].trim();
         
-        // تشفير الاسم ليناسب الروابط وتجنب الأخطاء مع علامات # أو @ في مسار الصورة
         const encodedFilename = encodeURIComponent(filename).replace(/%20/g, '+');
 
         return {
@@ -518,11 +513,9 @@
     };
 
     // ==========================================
-    // 6. GITHUB API FETCHER
-    // هذه الدالة تقرأ محتويات مجلد item تلقائياً
+    // 6. GITHUB API FETCHER (UPDATED)
     // ==========================================
     async function loadProductsFromGitHub() {
-        // يتم استنتاج اسم المستخدم والمستودع تلقائياً من رابط الصفحة
         let owner = 'mahmoudelsheikh7'; 
         let repo = 'store'; 
 
@@ -543,13 +536,13 @@
             
             const files = await response.json();
             
-            // فلترة الصور فقط
-            const imageFiles = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp|gif)$/i));
+            // التحديث هنا: دعم جميع صيغ الصور (jpg, png, webp, svg, gif, bmp, ico, tiff, avif والمزيد)
+            const imageFiles = files.filter(file => file.name.match(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico|tiff|tif|avif|jfif|pjpeg|pjp)$/i));
             products = imageFiles.map(file => parseFilename(file.name));
             
         } catch (error) {
             console.warn("المتجر يعمل محلياً أو لا يمكن الوصول لـ GitHub API.", error);
-            products = []; // تفريغ لاظهار حالة فارغ
+            products = []; 
         }
 
         document.getElementById('globalLoadingState').classList.add('hidden');
@@ -572,7 +565,6 @@
         document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-ph')));
         document.getElementById('langToggleBtn').innerText = currentLang === 'ar' ? 'EN' : 'ع';
         
-        // التحقق من وجود منتجات أو تفريغ الواجهة بالكامل
         if (products.length === 0) {
             document.getElementById('shopMainWrapper').classList.add('hidden');
             document.getElementById('searchContainer').classList.add('hidden');
@@ -956,7 +948,7 @@
         }, true);
     }
 
-    // Init App (Starts by fetching files from GitHub)
+    // Init App
     loadProductsFromGitHub();
     initDragScroll();
 </script>
