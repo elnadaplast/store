@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="الندي بلاست - حلول التغليف الذكية والمتكاملة">
+    <meta name="description" content="الندى بلاست - للتجارة والتوزيع وحلول التغليف">
     <title>Al-Nada Plast Shop</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="item/1000412269_2.jpg">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -48,7 +51,6 @@
             background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%);
         }
         
-        /* Enhanced Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(20px);
@@ -70,7 +72,6 @@
         .modal-hidden { opacity: 0; pointer-events: none; visibility: hidden; transition: all 0.3s ease; }
         .modal-visible { opacity: 1; pointer-events: auto; visibility: visible; transition: all 0.3s ease; }
         
-        /* Animations */
         .scale-in { animation: scaleIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes scaleIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
@@ -83,64 +84,55 @@
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-        /* Category Slider Config */
-        .category-slider {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            cursor: grab;
-        }
+        .category-slider { scrollbar-width: none; -ms-overflow-style: none; cursor: grab; }
         .category-slider::-webkit-scrollbar { display: none; }
         .category-slider.dragging { cursor: grabbing; }
         .category-slider.dragging * { pointer-events: none; user-select: none; }
 
-        /* Logical Properties for RTL/LTR compatibility */
         .modal-close-btn { position: absolute; top: 1rem; inset-inline-end: 1rem; }
         .search-icon { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-start: 1.2rem; }
         .search-clear { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-end: 1.2rem; }
         #searchInput { padding-inline-start: 2.8rem; padding-inline-end: 2.8rem; }
 
-        /* Cart Drawer Animations */
         .cart-drawer-anim { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .modal-hidden .cart-drawer-anim { transform: translateX(100%); }
         [dir="rtl"] .modal-hidden .cart-drawer-anim { transform: translateX(-100%); }
         .modal-visible .cart-drawer-anim { transform: translateX(0); }
     </style>
 </head>
-<body class="font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-20 md:pb-8">
+<body class="font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-10">
 
     <!-- Navbar -->
     <nav class="sticky top-0 z-40 glass shadow-sm transition-colors duration-300">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between gap-2 sm:gap-4">
-            <!-- Logo & Brand -->
             <div class="flex items-center gap-2 sm:gap-3 cursor-pointer flex-shrink-0 group" onclick="resetFilters()">
                 <img src="item/1000412269_2.jpg" alt="Logo" class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl object-cover shadow-md transition-all duration-300 group-hover:rotate-6 group-hover:scale-105" onerror="this.src='https://placehold.co/100x100/10b981/ffffff?text=Logo'">
                 <div class="hidden sm:block transition-transform duration-300 group-hover:translate-x-1">
                     <h1 class="text-lg font-extrabold text-emerald-600 dark:text-emerald-400" data-i18n="brand_name">الندي بلاست</h1>
-                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="brand_sub">Packaging Solutions</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400" data-i18n="brand_sub">Trading & Distribution</p>
                 </div>
             </div>
 
-            <!-- Search Bar -->
-            <div class="flex-1 max-w-xl relative group">
+            <!-- Search Bar (Hidden if store is empty) -->
+            <div id="searchContainer" class="flex-1 max-w-xl relative group">
                 <input type="text" id="searchInput" oninput="debouncedSearch()" 
                        class="w-full py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-sm sm:text-base shadow-sm hover:shadow-md"
                        placeholder="ابحث عن منتج..." data-i18n-ph="search_placeholder">
                 <i class="fas fa-search search-icon text-gray-400 text-sm pointer-events-none group-focus-within:text-emerald-500 transition-colors"></i>
-                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden search-clear text-gray-400 hover:text-red-500 transition-colors transform hover:scale-110" aria-label="Clear Search">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden search-clear text-gray-400 hover:text-red-500 transition-colors transform hover:scale-110">
                     <i class="fas fa-times-circle"></i>
                 </button>
             </div>
 
-            <!-- Actions -->
             <div class="flex items-center gap-1 sm:gap-3 flex-shrink-0">
-                <button onclick="toggleTheme()" class="p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg" aria-label="Toggle Theme">
+                <button onclick="toggleTheme()" class="p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg">
                     <i class="fas fa-moon dark:hidden text-slate-700"></i>
                     <i class="fas fa-sun hidden dark:inline text-yellow-400"></i>
                 </button>
-                <button onclick="toggleLang()" class="px-3 py-1.5 rounded-full bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-600 transition-all shadow-sm hover:shadow-md transform hover:scale-105" aria-label="Toggle Language">
+                <button onclick="toggleLang()" class="px-3 py-1.5 rounded-full bg-emerald-500 text-white text-sm font-bold hover:bg-emerald-600 transition-all shadow-sm transform hover:scale-105">
                     <span id="langToggleBtn">EN</span>
                 </button>
-                <button onclick="toggleCart()" class="relative p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg group" aria-label="Open Cart">
+                <button onclick="toggleCart()" id="cartBtnGlobal" class="relative p-2.5 rounded-full hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors text-lg group">
                     <i id="cartIconAnim" class="fas fa-shopping-cart text-emerald-600 dark:text-emerald-400 transition-transform duration-300 group-hover:scale-110"></i>
                     <span id="cartBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full hidden font-bold shadow-sm transition-transform duration-300">0</span>
                 </button>
@@ -148,29 +140,123 @@
         </div>
     </nav>
 
-    <!-- Categories Section -->
-    <section class="sticky top-[65px] sm:top-[73px] z-30 glass shadow-sm py-3 mb-6 transition-colors duration-300">
-        <div class="container mx-auto px-2 sm:px-4">
-            <ul id="categoryList" class="category-slider flex gap-2 overflow-x-auto w-full pb-1"></ul>
+    <!-- Global Empty State (If item folder is empty) -->
+    <div id="globalEmptyState" class="hidden flex-col items-center justify-center py-32 text-center px-4">
+        <div class="float w-32 h-32 mb-6 rounded-full bg-gray-200 dark:bg-slate-800 flex items-center justify-center shadow-inner">
+            <i class="fas fa-box-open text-6xl text-gray-400 dark:text-gray-500"></i>
         </div>
-    </section>
+        <h2 class="text-3xl font-extrabold mb-4 text-slate-800 dark:text-gray-100" data-i18n="store_empty_title">المتجر قيد التحديث</h2>
+        <p class="text-lg text-gray-500 dark:text-gray-400 max-w-md mx-auto" data-i18n="store_empty_desc">لا توجد منتجات معروضة في المتجر حالياً. نحن نقوم بتحديث الكتالوج الخاص بنا، يرجى التواصل معنا مباشرة للطلبات.</p>
+    </div>
 
-    <!-- Product Grid -->
-    <main class="container mx-auto px-4">
-        <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"></div>
-        
-        <!-- Empty State for Products -->
-        <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400">
-            <div class="float w-24 h-24 mb-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                <i class="fas fa-box-open text-5xl text-emerald-500"></i>
+    <!-- Main Store Wrapper -->
+    <div id="shopMainWrapper">
+        <!-- Categories Section -->
+        <section class="sticky top-[65px] sm:top-[73px] z-30 glass shadow-sm py-3 mb-6 transition-colors duration-300">
+            <div class="container mx-auto px-2 sm:px-4">
+                <ul id="categoryList" class="category-slider flex gap-2 overflow-x-auto w-full pb-1"></ul>
             </div>
-            <h3 class="text-xl sm:text-2xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="no_results_title">لا توجد منتجات مطابقة</h3>
-            <p class="mb-6 px-4" data-i18n="no_results_desc">حاول تعديل البحث أو تصفح الفئات الأخرى</p>
-            <button onclick="resetFilters()" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/30 text-sm sm:text-base transform hover:-translate-y-1">
-                <i class="fas fa-redo ml-2"></i><span data-i18n="show_all">عرض كل المنتجات</span>
-            </button>
+        </section>
+
+        <!-- Product Grid -->
+        <main class="container mx-auto px-4 mb-16">
+            <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5"></div>
+            
+            <!-- Empty State for Search -->
+            <div id="noResults" class="hidden flex-col items-center justify-center py-20 text-center text-gray-500 dark:text-gray-400">
+                <div class="float w-24 h-24 mb-6 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                    <i class="fas fa-search text-5xl text-emerald-500"></i>
+                </div>
+                <h3 class="text-xl sm:text-2xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="no_results_title">لا توجد منتجات مطابقة</h3>
+                <p class="mb-6 px-4" data-i18n="no_results_desc">حاول تعديل البحث أو تصفح الفئات الأخرى</p>
+                <button onclick="resetFilters()" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-all shadow-lg transform hover:-translate-y-1">
+                    <i class="fas fa-redo ml-2"></i><span data-i18n="show_all">عرض كل المنتجات</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Corporate Footer / Contact Info -->
+    <footer class="container mx-auto px-4 mt-8 mb-4">
+        <div class="glass rounded-3xl p-6 sm:p-10 shadow-lg border border-gray-100 dark:border-gray-800">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- About -->
+                <div class="text-center md:text-start">
+                    <h3 class="text-2xl font-extrabold mb-4 text-emerald-600 dark:text-emerald-400" data-i18n="footer_about_title">الندى بلاست</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4" data-i18n="footer_about_desc">
+                        نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.
+                    </p>
+                    <div class="flex items-center justify-center md:justify-start gap-4">
+                        <a href="https://www.facebook.com/share/1C1pKGFayp/" target="_blank" class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="Facebook">
+                            <i class="fab fa-facebook-f text-lg"></i>
+                        </a>
+                        <a href="https://maps.app.goo.gl/azVw1khGMuYoV8xd9" target="_blank" class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors" title="Location">
+                            <i class="fas fa-map-marker-alt text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact & Services -->
+                <div class="text-center md:text-start">
+                    <h4 class="text-lg font-bold mb-4 text-slate-800 dark:text-gray-100" data-i18n="footer_contact_title">تواصل معنا</h4>
+                    <ul class="space-y-3 text-sm font-semibold">
+                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01112611103')">
+                            <i class="fas fa-truck-fast text-emerald-500"></i> 
+                            <span data-i18n="contact_delivery">الطلب والتوصيل:</span> <span class="dir-ltr">011 1261 1103</span>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01044200047')">
+                            <i class="fas fa-handshake text-blue-500"></i> 
+                            <span data-i18n="contact_sales">المبيعات:</span> <span class="dir-ltr">010 4420 0047</span>
+                        </li>
+                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01027760090')">
+                            <i class="fas fa-headset text-red-500"></i> 
+                            <span data-i18n="contact_complaints">الشكاوى:</span> <span class="dir-ltr">010 2776 0090</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Payments -->
+                <div class="text-center md:text-start">
+                    <h4 class="text-lg font-bold mb-4 text-slate-800 dark:text-gray-100" data-i18n="footer_payment_title">طرق الدفع</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-center md:justify-start gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
+                            <i class="fas fa-wallet text-purple-600 text-xl"></i>
+                            <div class="text-start">
+                                <p class="text-xs font-bold text-gray-500">InstaPay</p>
+                                <p class="text-sm font-bold text-slate-800 dark:text-gray-200 dir-ltr">01115949155</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center md:justify-start gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
+                            <i class="fas fa-money-bill-wave text-red-600 text-xl"></i>
+                            <div class="text-start">
+                                <p class="text-xs font-bold text-gray-500">Vodafone Cash</p>
+                                <p class="text-sm font-bold text-slate-800 dark:text-gray-200 dir-ltr">01027760090</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-400 font-bold">
+                © 2024 Al-Nada Plast. All Rights Reserved.
+            </div>
         </div>
-    </main>
+    </footer>
+
+    <!-- Contact Action Modal (For Calls/WhatsApp) -->
+    <div id="actionModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4" onclick="closeModal('actionModal', event)">
+        <div class="glass bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl scale-in text-center" onclick="event.stopPropagation()">
+            <h3 class="font-extrabold text-xl mb-6 text-slate-800 dark:text-white" data-i18n="action_title">تواصل معنا</h3>
+            <div class="space-y-3">
+                <a id="callLink" href="#" class="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-xl font-bold transition shadow-md">
+                    <i class="fa-solid fa-phone"></i> <span data-i18n="action_call">اتصال هاتفي</span>
+                </a>
+                <a id="waLink" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-green-500 hover:bg-green-600 text-white p-4 rounded-xl font-bold transition shadow-md">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> <span data-i18n="action_whatsapp">محادثة واتساب</span>
+                </a>
+                <button onclick="closeModal('actionModal')" class="w-full text-gray-500 hover:text-red-500 mt-4 font-bold transition p-2" data-i18n="action_cancel">إلغاء</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Product Quick View Modal -->
     <div id="productModal" class="modal-hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-md" onclick="closeModal('productModal', event)">
@@ -179,7 +265,6 @@
                 <i class="fas fa-times-circle"></i>
             </button>
             <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden flex items-center justify-center min-h-[200px] sm:min-h-[250px] shadow-inner p-4 relative group">
-                <!-- Smart Lazy Loading Added -->
                 <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain max-h-[300px] sm:max-h-[400px] transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Image+Not+Found'">
             </div>
             <div class="flex flex-col justify-center">
@@ -292,6 +377,7 @@
     // ==========================================
     // 1. DATA & SIMULATED REPOSITORY
     // ==========================================
+    // To test the empty state, just clear this array (e.g., const rawFilenames = [];)
     const rawFilenames = [
         "أكواب بلاستيك شفاف #أكواب #بلاستيك @قطعة=1 @شيكارة=1000.jpg",
         "Plastic Spoons #Spoons #Plastic #Plastik @Piece=1 @Packet=50 @Carton=1000.jpg",
@@ -328,7 +414,6 @@
     // ==========================================
     function parseFilename(filename) {
         const cleanName = filename.replace(/\.[^/.]+$/, ""); 
-        // Improved Regex to handle extra spaces intelligently
         const catMatches = cleanName.match(/#([^\s#]+)/g) || [];
         const rawCategories = catMatches.map(c => normalizeCategory(c.substring(1).trim()));
         
@@ -403,24 +488,34 @@
 
     const i18n = {
         ar: {
-            brand_name: "الندي بلاست", brand_sub: "حلول التغليف", search_placeholder: "ابحث عن منتج...",
+            brand_name: "الندى بلاست", brand_sub: "للتجارة والتوزيع", search_placeholder: "ابحث عن منتج...",
             all: "الكل", no_results_title: "لا توجد منتجات مطابقة", no_results_desc: "حاول تعديل البحث أو تصفح الفئات الأخرى",
             show_all: "عرض كل المنتجات", select_unit: "اختر الوحدة:", quantity: "الكمية:", add_to_cart: "أضف إلى السلة",
             cart: "السلة", checkout: "إتمام الشراء", empty_cart_title: "سلتك فارغة", empty_cart_desc: "أضف بعض المنتجات لإتمام الطلب",
             start_shopping: "ابدأ التسوق", delivery_method: "طريقة الاستلام", pickup: "الاستلام من المحل", pickup_desc: "استلام طلبك مباشرة من فرعنا",
             home_delivery: "توصيل للمنزل", delivery_desc: "سنقوم بتوصيل الطلب إلى باب منزلك", send_order: "إرسال الطلب عبر واتساب",
             piece: "قطعة", added_to_cart: "تمت الإضافة للسلة بنجاح", empty_cart_warn: "السلة فارغة! أضف منتجات أولاً.",
-            items_in_cart: "عنصر", total_pieces: "إجمالي القطع الكلية"
+            items_in_cart: "عنصر", total_pieces: "إجمالي القطع الكلية",
+            footer_about_title: "الندى بلاست", 
+            footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.",
+            footer_contact_title: "تواصل معنا", contact_delivery: "الطلب والتوصيل:", contact_sales: "المبيعات:", contact_complaints: "الشكاوى:",
+            footer_payment_title: "طرق الدفع", store_empty_title: "المتجر قيد التحديث", store_empty_desc: "لا توجد منتجات معروضة في المتجر حالياً. نحن نقوم بتحديث الكتالوج الخاص بنا، يرجى التواصل معنا مباشرة للطلبات.",
+            action_title: "تواصل معنا", action_call: "اتصال هاتفي", action_whatsapp: "محادثة واتساب", action_cancel: "إلغاء"
         },
         en: {
-            brand_name: "Al-Nada Plast", brand_sub: "Packaging Solutions", search_placeholder: "Search for product...",
+            brand_name: "Al-Nada Plast", brand_sub: "Trading & Distribution", search_placeholder: "Search for product...",
             all: "All", no_results_title: "No matching products", no_results_desc: "Try adjusting your search or browse other categories",
             show_all: "Show All Products", select_unit: "Select Unit:", quantity: "Quantity:", add_to_cart: "Add to Cart",
             cart: "Cart", checkout: "Checkout", empty_cart_title: "Your cart is empty", empty_cart_desc: "Add some products to complete your order",
             start_shopping: "Start Shopping", delivery_method: "Delivery Method", pickup: "Pickup from Store", pickup_desc: "Pick up your order directly from our branch",
             home_delivery: "Home Delivery", delivery_desc: "We will deliver the order to your doorstep", send_order: "Send Order via WhatsApp",
             piece: "Piece", added_to_cart: "Added to cart successfully", empty_cart_warn: "Cart is empty! Add products first.",
-            items_in_cart: "items", total_pieces: "Total Pieces"
+            items_in_cart: "items", total_pieces: "Total Pieces",
+            footer_about_title: "Al-Nada Plast", 
+            footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996. Our commitment is to offer excellent service to our clients nationwide.",
+            footer_contact_title: "Contact Us", contact_delivery: "Orders & Delivery:", contact_sales: "Sales:", contact_complaints: "Complaints:",
+            footer_payment_title: "Payment Methods", store_empty_title: "Store is Updating", store_empty_desc: "There are currently no products available online. We are updating our catalog, please contact us directly for orders.",
+            action_title: "Contact Us", action_call: "Phone Call", action_whatsapp: "WhatsApp Chat", action_cancel: "Cancel"
         }
     };
 
@@ -433,16 +528,28 @@
         document.documentElement.lang = currentLang;
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
-        document.body.className = currentLang === 'ar' ? 'font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-20 md:pb-8' : 'font-en dark:text-gray-100 min-h-screen overflow-x-hidden pb-20 md:pb-8';
+        document.body.className = currentLang === 'ar' ? 'font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-10' : 'font-en dark:text-gray-100 min-h-screen overflow-x-hidden pb-10';
         
+        // Handle CSS direction utilities
+        document.querySelectorAll('.dir-ltr').forEach(el => el.style.direction = 'ltr');
+
         document.querySelectorAll('[data-i18n]').forEach(el => el.innerText = t(el.getAttribute('data-i18n')));
         document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.getAttribute('data-i18n-ph')));
         
         document.getElementById('langToggleBtn').innerText = currentLang === 'ar' ? 'EN' : 'ع';
         
-        renderCategories();
-        renderProducts();
-        renderCart();
+        // Smart Check: Is the store empty?
+        if (products.length === 0) {
+            document.getElementById('shopMainWrapper').classList.add('hidden');
+            document.getElementById('searchContainer').classList.add('hidden');
+            document.getElementById('cartBtnGlobal').classList.add('hidden');
+            document.getElementById('globalEmptyState').classList.remove('hidden');
+            document.getElementById('globalEmptyState').classList.add('flex');
+        } else {
+            renderCategories();
+            renderProducts();
+            renderCart();
+        }
     }
 
     function renderCategories() {
@@ -464,6 +571,8 @@
     }
 
     function renderProducts() {
+        if (products.length === 0) return;
+
         const grid = document.getElementById('productGrid');
         const noResults = document.getElementById('noResults');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -490,7 +599,6 @@
             <div class="fade-in-up glass rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group flex flex-col h-full" style="animation-delay: ${index * 0.04}s" onclick="openProductModal('${p.id}')">
                 <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl overflow-hidden mb-2 sm:mb-3 aspect-square flex items-center justify-center p-2 sm:p-3 relative">
                     <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/300x300/e2e8f0/64748b?text=Image'">
-                    <!-- Quick Add Hover Button (Smart Feature) -->
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-xl sm:rounded-2xl backdrop-blur-[2px]">
                         <span class="bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-300 shadow-lg"><i class="fas fa-plus"></i></span>
                     </div>
@@ -568,7 +676,6 @@
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
     }
 
-    // Smart Debounced Search
     function debouncedSearch() {
         clearTimeout(searchDebounceTimer);
         searchDebounceTimer = setTimeout(() => {
@@ -639,7 +746,7 @@
         const badge = document.getElementById('cartBadge');
         const icon = document.getElementById('cartIconAnim');
         badge.classList.remove('animate-pop');
-        void badge.offsetWidth; // trigger reflow
+        void badge.offsetWidth; 
         badge.classList.add('animate-pop');
         icon.classList.add('scale-125');
         setTimeout(() => icon.classList.remove('scale-125'), 300);
@@ -649,7 +756,6 @@
         const qty = parseInt(document.getElementById('modalQty').value) || 1;
         if (!currentProduct || !selectedUnit) return;
         
-        // Smart Logic: Update qty if same product and unit already exists
         const existingItemIndex = cart.findIndex(item => item.name === currentProduct.name && item.unit.name === selectedUnit.name);
         
         if(existingItemIndex > -1) {
@@ -691,7 +797,6 @@
         openModal('checkoutModal');
     }
 
-    // Smart WhatsApp Generator
     function sendWhatsAppOrder() {
         const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
         const methodText = method === 'pickup' ? (currentLang === 'ar' ? 'الاستلام من المحل' : 'Pickup from Store') : (currentLang === 'ar' ? 'توصيل للمنزل' : 'Home Delivery');
@@ -704,7 +809,6 @@
         let totalPieces = 0;
         cart.forEach((item, i) => {
             const piecesText = currentLang === 'ar' ? 'قطعة' : 'pcs';
-            const perText = currentLang === 'ar' ? 'لكل' : '/';
             const itemTotalPieces = item.qty * item.unit.qty;
             totalPieces += itemTotalPieces;
             
@@ -719,6 +823,7 @@
         window.open(`https://wa.me/201112611103?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
+    // Modal Actions
     function openModal(id) {
         const modal = document.getElementById(id);
         modal.classList.remove('modal-hidden');
@@ -734,10 +839,21 @@
         document.body.style.overflow = 'auto';
     }
     
-    // Smart Keyboard Support (Escape to close modals)
+    function toggleCart() { 
+        renderCart(); 
+        openModal('cartDrawer'); 
+    }
+
+    function openActionModal(number) {
+        const modal = document.getElementById('actionModal');
+        document.getElementById('callLink').href = `tel:${number}`;
+        document.getElementById('waLink').href = `https://wa.me/20${number.replace(/^0/, '')}`;
+        openModal('actionModal');
+    }
+
     document.addEventListener('keydown', function(event) {
         if (event.key === "Escape") {
-            ['productModal', 'cartDrawer', 'checkoutModal'].forEach(id => {
+            ['productModal', 'cartDrawer', 'checkoutModal', 'actionModal'].forEach(id => {
                 if(document.getElementById(id).classList.contains('modal-visible')){
                     closeModal(id);
                 }
@@ -745,12 +861,6 @@
         }
     });
 
-    function toggleCart() { 
-        renderCart(); 
-        openModal('cartDrawer'); 
-    }
-
-    // Smart Toast System (Prevents overlapping bugs)
     let toastTimeout;
     function showToast(msg) {
         const toast = document.getElementById('toast');
@@ -771,8 +881,8 @@
     // ==========================================
     function initDragScroll() {
         const slider = document.getElementById('categoryList');
-        let isDown = false;
-        let startX, scrollLeft, hasMoved = false;
+        if (!slider) return;
+        let isDown = false, startX, scrollLeft, hasMoved = false;
 
         const start = (e) => {
             isDown = true;
@@ -787,7 +897,7 @@
             if (!isDown) return;
             const pageX = e.touches ? e.touches[0].pageX : e.pageX;
             const x = pageX - slider.getBoundingClientRect().left;
-            const walk = (x - startX) * 1.5; // Slightly faster scroll multiplier
+            const walk = (x - startX) * 1.5; 
             
             if (Math.abs(walk) > 5) {
                 hasMoved = true;
@@ -796,27 +906,17 @@
             }
         };
 
-        const end = () => {
-            isDown = false;
-            slider.classList.remove('dragging');
-        };
+        const end = () => { isDown = false; slider.classList.remove('dragging'); };
 
         slider.addEventListener('mousedown', start);
         slider.addEventListener('touchstart', start, { passive: true });
-        
         slider.addEventListener('mousemove', move);
         slider.addEventListener('touchmove', move, { passive: false });
-        
         slider.addEventListener('mouseup', end);
         slider.addEventListener('mouseleave', end);
         slider.addEventListener('touchend', end);
-
         slider.addEventListener('click', (e) => {
-            if (hasMoved) {
-                e.preventDefault();
-                e.stopPropagation();
-                hasMoved = false;
-            }
+            if (hasMoved) { e.preventDefault(); e.stopPropagation(); hasMoved = false; }
         }, true);
     }
 
