@@ -25,16 +25,6 @@
                     fontFamily: {
                         'ar': ['Cairo', 'sans-serif'],
                         'en': ['Poppins', 'sans-serif'],
-                    },
-                    animation: {
-                        'pop': 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
-                    },
-                    keyframes: {
-                        pop: {
-                            '0%': { transform: 'scale(1)' },
-                            '50%': { transform: 'scale(1.4)' },
-                            '100%': { transform: 'scale(1)' },
-                        }
                     }
                 }
             }
@@ -51,6 +41,7 @@
             background: linear-gradient(135deg, #0f172a 0%, #111827 50%, #1e293b 100%);
         }
         
+        /* Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(20px);
@@ -72,6 +63,7 @@
         .modal-hidden { opacity: 0; pointer-events: none; visibility: hidden; transition: all 0.3s ease; }
         .modal-visible { opacity: 1; pointer-events: auto; visibility: visible; transition: all 0.3s ease; }
         
+        /* Animations */
         .scale-in { animation: scaleIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         @keyframes scaleIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         
@@ -81,19 +73,25 @@
         .float { animation: float 3s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
+        .badge-pop { animation: badgePop 0.3s ease; }
+        @keyframes badgePop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
+        /* Category Slider Config */
         .category-slider { scrollbar-width: none; -ms-overflow-style: none; cursor: grab; }
         .category-slider::-webkit-scrollbar { display: none; }
         .category-slider.dragging { cursor: grabbing; }
         .category-slider.dragging * { pointer-events: none; user-select: none; }
 
+        /* Logical Properties for RTL/LTR compatibility */
         .modal-close-btn { position: absolute; top: 1rem; inset-inline-end: 1rem; }
         .search-icon { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-start: 1.2rem; }
         .search-clear { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-end: 1.2rem; }
         #searchInput { padding-inline-start: 2.8rem; padding-inline-end: 2.8rem; }
 
+        /* Cart Drawer Animations */
         .cart-drawer-anim { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .modal-hidden .cart-drawer-anim { transform: translateX(100%); }
         [dir="rtl"] .modal-hidden .cart-drawer-anim { transform: translateX(-100%); }
@@ -444,7 +442,8 @@
             if (unitStr.includes('=')) {
                 const parts = unitStr.split('=');
                 unitName = parts[0].trim();
-                qty = parseInt(parts[1].trim()) || 1;
+                const numMatch = parts[1].match(/(\d+)/);
+                if (numMatch) qty = parseInt(numMatch[1]) || 1;
             } else if (unitStr.includes('(')) {
                 const parts = unitStr.split('(');
                 unitName = parts[0].trim();
@@ -454,14 +453,17 @@
                 unitName = unitStr;
                 qty = 1;
             }
-            return { name: unitName || 'قطعة', qty: qty };
+            
+            // Clean any trailing parentheses from the name just in case
+            unitName = unitName.replace(/[()]/g, '').trim();
+            return { name: unitName || 'قطعة', qty: qty > 0 ? qty : 1 };
         });
         
         // 4. Clean Product Name (Remove all #tags, @units, and parentheses content, then trim)
         let name = cleanName;
-        name = name.replace(/#[^#@]+/g, '');
-        name = name.replace(/@[^#@]+/g, '');
-        name = name.replace(/\([^)]*\)/g, '');
+        name = name.replace(/#[^#@]+/g, ''); // Remove categories
+        name = name.replace(/@[^#@]+/g, ''); // Remove units
+        name = name.replace(/\([^)]*\)/g, ''); // Remove any remaining parentheses
         name = name.replace(/\s+/g, ' ').replace(/^[-\s]+|[-\s]+$/g, '').trim();
         
         return {
@@ -889,9 +891,9 @@
     function animateBadge() {
         const badge = document.getElementById('cartBadge');
         const icon = document.getElementById('cartIconAnim');
-        badge.classList.remove('animate-pop');
+        badge.classList.remove('badge-pop');
         void badge.offsetWidth; 
-        badge.classList.add('animate-pop');
+        badge.classList.add('badge-pop');
         icon.classList.add('scale-125');
         setTimeout(() => icon.classList.remove('scale-125'), 300);
     }
@@ -983,7 +985,7 @@
         const toast = document.getElementById('toast');
         document.getElementById('toastMsg').innerText = msg;
         
-        clearTimeout(toastTimeout);
+        clearTimeout(toastTimeout); // Prevent overlapping
         toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
         toast.classList.add('opacity-100', 'translate-y-0');
         
