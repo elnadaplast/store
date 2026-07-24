@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <!-- Search Bar (Hidden if store is empty) -->
+            <!-- Search Bar -->
             <div id="searchContainer" class="flex-1 max-w-xl relative group hidden">
                 <input type="text" id="searchInput" oninput="debouncedSearch()" 
                        class="w-full py-2.5 rounded-full bg-white/80 dark:bg-slate-800/80 border border-gray-200 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all text-sm sm:text-base shadow-sm hover:shadow-md"
@@ -145,7 +145,7 @@
         <p class="text-lg text-gray-500 dark:text-gray-400" data-i18n="loading">جاري تحميل المنتجات...</p>
     </div>
 
-    <!-- Global Empty State (If item folder is empty) -->
+    <!-- Global Empty State -->
     <div id="globalEmptyState" class="hidden flex-col items-center justify-center py-32 text-center px-4">
         <div class="float w-32 h-32 mb-6 rounded-full bg-gray-200 dark:bg-slate-800 flex items-center justify-center shadow-inner">
             <i class="fas fa-box-open text-6xl text-gray-400 dark:text-gray-500"></i>
@@ -191,14 +191,6 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4" data-i18n="footer_about_desc">
                         نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.
                     </p>
-                    <div class="flex items-center justify-center md:justify-start gap-4">
-                        <a href="https://www.facebook.com/share/1C1pKGFayp/" target="_blank" class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="Facebook">
-                            <i class="fab fa-facebook-f text-lg"></i>
-                        </a>
-                        <a href="https://maps.app.goo.gl/azVw1khGMuYoV8xd9" target="_blank" class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors" title="Location">
-                            <i class="fas fa-map-marker-alt text-lg"></i>
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Contact & Services -->
@@ -231,18 +223,8 @@
                                 <p class="text-sm font-bold text-slate-800 dark:text-gray-200 dir-ltr">01115949155</p>
                             </div>
                         </div>
-                        <div class="flex items-center justify-center md:justify-start gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
-                            <i class="fas fa-money-bill-wave text-red-600 text-xl"></i>
-                            <div class="text-start">
-                                <p class="text-xs font-bold text-gray-500">Vodafone Cash</p>
-                                <p class="text-sm font-bold text-slate-800 dark:text-gray-200 dir-ltr">01027760090</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-400 font-bold">
-                © 2024 Al-Nada Plast. All Rights Reserved.
             </div>
         </div>
     </footer>
@@ -270,7 +252,7 @@
                 <i class="fas fa-times-circle"></i>
             </button>
             <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden flex items-center justify-center min-h-[200px] sm:min-h-[250px] shadow-inner p-4 relative group">
-                <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain max-h-[300px] sm:max-h-[400px] transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Image+Not+Found'">
+                <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain max-h-[300px] sm:max-h-[400px] transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x400/e2e8f0/64748b?text=Image'">
             </div>
             <div class="flex flex-col justify-center">
                 <div id="modalCategories" class="flex flex-wrap gap-2 mb-3"></div>
@@ -314,14 +296,12 @@
 
             <div id="cartItemsContainer" class="flex-1 overflow-y-auto pr-2 pb-2">
                 <div id="cartItems" class="space-y-3"></div>
-                <!-- Empty Cart State -->
                 <div id="emptyCart" class="hidden flex-col items-center justify-center h-full text-center text-gray-500 dark:text-gray-400 py-10">
                     <div class="float w-24 h-24 mb-6 rounded-full bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
                         <i class="fas fa-shopping-basket text-5xl text-red-400"></i>
                     </div>
                     <h3 class="text-xl font-extrabold mb-2 text-slate-700 dark:text-gray-200" data-i18n="empty_cart_title">سلتك فارغة</h3>
-                    <p class="mb-6" data-i18n="empty_cart_desc">أضف بعض المنتجات لإتمام الطلب</p>
-                    <button onclick="closeModal('cartDrawer')" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-all shadow-lg transform hover:-translate-y-1 text-sm">
+                    <button onclick="closeModal('cartDrawer')" class="px-6 py-3 bg-emerald-500 text-white rounded-xl font-bold hover:bg-emerald-600 transition-all shadow-lg transform hover:-translate-y-1 text-sm mt-4">
                         <span data-i18n="start_shopping">ابدأ التسوق</span>
                     </button>
                 </div>
@@ -358,18 +338,12 @@
                         <h3 class="font-bold text-lg text-slate-800 dark:text-gray-100" data-i18n="pickup">الاستلام من المحل</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="pickup_desc">استلام طلبك مباشرة من فرعنا</p>
                     </div>
-                    <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-store text-xl text-emerald-500"></i>
-                    </div>
                 </label>
                 <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md transform hover:-translate-y-1">
                     <input type="radio" name="deliveryMethod" value="delivery" class="w-5 h-5 accent-emerald-500">
                     <div class="flex-1">
                         <h3 class="font-bold text-lg text-slate-800 dark:text-gray-100" data-i18n="home_delivery">توصيل للمنزل</h3>
                         <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="delivery_desc">سنقوم بتوصيل الطلب إلى باب منزلك</p>
-                    </div>
-                    <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center flex-shrink-0">
-                        <i class="fas fa-truck-fast text-xl text-emerald-500"></i>
                     </div>
                 </label>
             </div>
@@ -388,7 +362,7 @@
 
 <script>
     // ==========================================
-    // 1. STATE & CONFIGURATION
+    // 1. STATE & CONFIGURATION (حفظ التفضيلات)
     // ==========================================
     let products = [];
     let cart = [];
@@ -399,8 +373,11 @@
     let activeCategory = 'all';
     let activeSearchQuery = '';
     let searchDebounceTimer = null;
+    
+    // استرجاع تفضيلات المستخدم (اللغة والوضع الداكن)
     let currentLang = localStorage.getItem('alnada_lang') || 'ar';
     let currentTheme = localStorage.getItem('alnada_theme') || 'light';
+    
     let currentProduct = null;
     let selectedUnit = null;
     let modalHistory = [];
@@ -426,14 +403,10 @@
     // 3. SMART REGEX FILENAME PARSER
     // ==========================================
     function parseFilename(filename) {
-        // 1. Remove extension (Supports all modern web image extensions)
         const cleanName = filename.replace(/\.(jpg|jpeg|png|webp|gif|svg|bmp|ico|tiff|tif|avif|jfif|pjpeg|pjp)$/i, "").trim();
-        
-        // 2. Extract Categories (preceded by #, matches any non-whitespace until next # or @)
         const catMatches = cleanName.match(/#[^#@]+/g) || [];
         const rawCategories = catMatches.map(c => normalizeCategory(c.substring(1).trim())).filter(c => c.length > 0);
         
-        // 3. Extract Units (preceded by @, format @UnitName=Qty or @UnitName(Qty) or @UnitName)
         const unitMatches = cleanName.match(/@[^#@]+/g) || [];
         const units = unitMatches.map(u => {
             let unitStr = u.substring(1).trim();
@@ -455,66 +428,68 @@
                 qty = 1;
             }
             
-            // Clean any trailing parentheses from the name just in case
             unitName = unitName.replace(/[()]/g, '').trim();
             return { name: unitName || 'قطعة', qty: qty > 0 ? qty : 1 };
         });
         
-        // 4. Clean Product Name (Remove all #tags, @units, and parentheses content, then trim)
         let name = cleanName;
-        name = name.replace(/#[^#@]+/g, ''); // Remove categories
-        name = name.replace(/@[^#@]+/g, ''); // Remove units
-        name = name.replace(/\([^)]*\)/g, ''); // Remove any remaining parentheses
+        name = name.replace(/#[^#@]+/g, '');
+        name = name.replace(/@[^#@]+/g, '');
+        name = name.replace(/\([^)]*\)/g, '');
         name = name.replace(/\s+/g, ' ').replace(/^[-\s]+|[-\s]+$/g, '').trim();
         
         return {
             id: filename,
-            name: name || "منتج غير مسمى",
+            name: name || "منتج",
             categories: [...new Set(rawCategories)],
             units: units.length > 0 ? units : [{ name: 'قطعة', qty: 1 }]
         };
     }
 
     // ==========================================
-    // 4. GITHUB API INTEGRATION (المعدل لجلب كل الملفات)
+    // 4. GITHUB API INTEGRATION (حل مشاكل اللوجو والصور المكسورة)
     // ==========================================
     async function fetchProducts() {
         document.getElementById('loadingState').classList.remove('hidden');
         document.getElementById('loadingState').classList.add('flex');
-        document.getElementById('globalEmptyState').classList.add('hidden');
-        document.getElementById('globalEmptyState').classList.remove('flex');
-        document.getElementById('shopMainWrapper').classList.add('hidden');
-
+        
         try {
             let owner = 'mahmoudelsheikh7';
             if (window.location.hostname.includes('github.io')) {
                 owner = window.location.hostname.split('.')[0];
             }
 
-            // 1. جلب كافة المستودعات الخاصة بالمستخدم
             const reposResponse = await fetch(`https://api.github.com/users/${owner}/repos?per_page=100`);
             if (!reposResponse.ok) throw new Error("API Error fetching repos");
             
             const repos = await reposResponse.json();
             let allImageFiles = [];
+            
             const validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'bmp', 'ico', 'tiff', 'tif', 'avif', 'jfif', 'pjpeg', 'pjp'];
+            
+            // قائمة الملفات التي يجب تجاهلها (اللوجو والأيقونات)
+            const ignoredFiles = ['1000412269_2.jpg', '1000412269.jpg', '1000412270.jpg', '1000412270_2.jpg', 'favicon.ico', '1784906934836.jpeg'];
 
-            // 2. فحص شجرة الملفات بالكامل داخل كل مستودع (بدون التقيد بمجلد معين)
             await Promise.allSettled(repos.map(async (repo) => {
                 const branch = repo.default_branch || 'main';
-                // استخدام recursive=1 للحصول على جميع الملفات والمجلدات مهما كان عمقها
                 const treeResponse = await fetch(`https://api.github.com/repos/${owner}/${repo.name}/git/trees/${branch}?recursive=1`);
                 if (treeResponse.ok) {
                     const treeData = await treeResponse.json();
                     if (treeData.tree) {
                         const images = treeData.tree.filter(file => {
                             if (file.type !== 'blob') return false;
-                            const ext = file.path.split('.').pop().toLowerCase();
-                            return validExtensions.includes(ext);
+                            const filename = file.path.split('/').pop();
+                            const ext = filename.split('.').pop().toLowerCase();
+                            // التأكد من الامتداد وعدم وجود الملف في قائمة التجاهل
+                            return validExtensions.includes(ext) && !ignoredFiles.includes(filename);
                         }).map(file => {
+                            const filename = file.path.split('/').pop();
+                            // تشفير أجزاء المسار لحل مشكلة عدم ظهور الأسماء العربية بالصور
+                            const encodedPath = file.path.split('/').map(encodeURIComponent).join('/');
+                            
                             return {
-                                name: file.path.split('/').pop(), // استخراج اسم الملف فقط دون المسار
-                                download_url: `https://raw.githubusercontent.com/${owner}/${repo.name}/${branch}/${file.path}`,
+                                name: filename,
+                                download_url: `https://raw.githubusercontent.com/${owner}/${repo.name}/${branch}/${encodedPath}`,
                                 type: 'file'
                             };
                         });
@@ -527,11 +502,10 @@
 
             products = allImageFiles.map(file => {
                 const parsed = parseFilename(file.name);
-                parsed.img = file.download_url; 
+                parsed.img = file.download_url; // الرابط المشفر جاهز
                 return parsed;
             });
 
-            // نجاح العملية
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('loadingState').classList.remove('flex');
             updateUI();
@@ -578,7 +552,7 @@
     }
 
     // ==========================================
-    // 6. i18n & THEMING
+    // 6. i18n & THEMING (مع حفظ التفضيلات)
     // ==========================================
     const i18n = {
         ar: {
@@ -591,9 +565,9 @@
             piece: "قطعة", added_to_cart: "تمت الإضافة للسلة بنجاح", empty_cart_warn: "السلة فارغة! أضف منتجات أولاً.",
             items_in_cart: "عنصر", total_items: "إجمالي العناصر:", total_pieces: "إجمالي القطع الكلية:",
             footer_about_title: "الندى بلاست", 
-            footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.",
+            footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996.",
             footer_contact_title: "تواصل معنا", contact_delivery: "الطلب والتوصيل:", contact_sales: "المبيعات:", contact_complaints: "الشكاوى:",
-            footer_payment_title: "طرق الدفع", store_empty_title: "المتجر قيد التحديث", store_empty_desc: "لا توجد منتجات معروضة في المتجر حالياً. نحن نقوم بتحديث الكتالوج الخاص بنا، يرجى التواصل معنا مباشرة للطلبات.",
+            footer_payment_title: "طرق الدفع", store_empty_title: "المتجر قيد التحديث", store_empty_desc: "لا توجد منتجات معروضة في المتجر حالياً.",
             action_title: "تواصل معنا", action_call: "اتصال هاتفي", action_whatsapp: "محادثة واتساب", action_cancel: "إلغاء",
             loading: "جاري تحميل المنتجات..."
         },
@@ -607,9 +581,9 @@
             piece: "Piece", added_to_cart: "Added to cart successfully", empty_cart_warn: "Cart is empty! Add products first.",
             items_in_cart: "items", total_items: "Total Items:", total_pieces: "Total Pieces:",
             footer_about_title: "Al-Nada Plast", 
-            footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996. Our commitment is to offer excellent service to our clients nationwide.",
+            footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996.",
             footer_contact_title: "Contact Us", contact_delivery: "Orders & Delivery:", contact_sales: "Sales:", contact_complaints: "Complaints:",
-            footer_payment_title: "Payment Methods", store_empty_title: "Store is Updating", store_empty_desc: "There are currently no products available online. We are updating our catalog, please contact us directly for orders.",
+            footer_payment_title: "Payment Methods", store_empty_title: "Store is Updating", store_empty_desc: "There are currently no products available online.",
             action_title: "Contact Us", action_call: "Phone Call", action_whatsapp: "WhatsApp Chat", action_cancel: "Cancel",
             loading: "Loading products..."
         }
@@ -641,11 +615,6 @@
             renderCategories();
             renderProducts();
         } else {
-            document.getElementById('shopMainWrapper').classList.add('hidden');
-            document.getElementById('searchContainer').classList.add('hidden');
-            document.getElementById('cartBtnGlobal').classList.add('hidden');
-            
-            // Show empty state if not loading
             if (document.getElementById('loadingState').classList.contains('hidden')) {
                 document.getElementById('globalEmptyState').classList.remove('hidden');
                 document.getElementById('globalEmptyState').classList.add('flex');
@@ -820,14 +789,6 @@
         }
     });
 
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "Escape") {
-            if (modalHistory.length > 0) {
-                closeModal(modalHistory[modalHistory.length - 1]);
-            }
-        }
-    });
-
     // ==========================================
     // 9. APP LOGIC & EVENT HANDLERS
     // ==========================================
@@ -989,6 +950,12 @@
         msg += `🧮 *${currentLang === 'ar' ? 'إجمالي القطع الكلي' : 'Grand Total Pieces'}: ${grandTotal}*`;
 
         window.open(`https://wa.me/201112611103?text=${encodeURIComponent(msg)}`, '_blank');
+        
+        // تفريغ السلة بعد إرسال الطلب بنجاح (اختياري، يمكنك حذفه إن أردت)
+        cart = [];
+        localStorage.setItem('alnada_cart', JSON.stringify(cart));
+        renderCart();
+        closeModal('checkoutModal');
     }
 
     let toastTimeout;
@@ -996,7 +963,7 @@
         const toast = document.getElementById('toast');
         document.getElementById('toastMsg').innerText = msg;
         
-        clearTimeout(toastTimeout); // Prevent overlapping
+        clearTimeout(toastTimeout); 
         toast.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
         toast.classList.add('opacity-100', 'translate-y-0');
         
@@ -1054,14 +1021,9 @@
     // 11. INITIALIZATION
     // ==========================================
     function init() {
-        document.documentElement.lang = currentLang;
-        document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-        document.documentElement.classList.toggle('dark', currentTheme === 'dark');
-        document.body.className = currentLang === 'ar' ? 'font-ar dark:text-gray-100 min-h-screen overflow-x-hidden pb-10' : 'font-en dark:text-gray-100 min-h-screen overflow-x-hidden pb-10';
-        
-        updateUI();
-        fetchProducts();
-        initDragScroll();
+        updateUI(); // استرجاع وتطبيق التفضيلات (اللغة، الوضع الداكن، السلة)
+        fetchProducts(); // جلب المنتجات بالمنطق الجديد (التشفير + استثناء اللوجو)
+        initDragScroll(); // تفعيل سحب الفئات
     }
 
     init();
