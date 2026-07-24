@@ -60,6 +60,9 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         .modal-hidden { opacity: 0; pointer-events: none; visibility: hidden; transition: all 0.25s ease; }
         .modal-visible { opacity: 1; pointer-events: auto; visibility: visible; transition: all 0.25s ease; }
@@ -82,7 +85,6 @@
         .category-slider.dragging { cursor: grabbing; }
         .category-slider.dragging * { pointer-events: none; user-select: none; }
 
-        .modal-close-btn { position: absolute; top: 1rem; inset-inline-end: 1rem; }
         .search-icon { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-start: 1.2rem; }
         .search-clear { position: absolute; top: 50%; transform: translateY(-50%); inset-inline-end: 1.2rem; }
         #searchInput { padding-inline-start: 2.8rem; padding-inline-end: 2.8rem; }
@@ -175,7 +177,7 @@
         </main>
     </div>
 
-    <!-- Corporate Footer / Contact Info (Optimized & Numbers Removed) -->
+    <!-- Corporate Footer -->
     <footer class="container mx-auto px-4 mt-8 mb-4">
         <div class="glass rounded-3xl p-6 sm:p-10 shadow-lg border border-gray-100 dark:border-gray-800">
             <div class="max-w-2xl mx-auto text-center flex flex-col items-center justify-center">
@@ -198,37 +200,55 @@
         </div>
     </footer>
 
-    <!-- Product Quick View Modal (Now a Floating Window) -->
-    <div id="productModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm" onclick="closeModal('productModal', event)">
-        <!-- The inner box with rounded-3xl on all sides to make it a floating window -->
-        <div class="glass rounded-3xl p-5 sm:p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto scale-in relative grid sm:grid-cols-2 gap-6 shadow-2xl" onclick="event.stopPropagation()">
-            <button onclick="closeModal('productModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
-                <i class="fas fa-times-circle"></i>
-            </button>
-            <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden flex items-center justify-center min-h-[200px] sm:min-h-[250px] shadow-inner p-4 relative">
-                <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain max-h-[300px] sm:max-h-[400px]">
+    <!-- Product Quick View Modal (Smaller & Floating) -->
+    <div id="productModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onclick="closeModal('productModal', event)">
+        <!-- Modal Card -->
+        <div class="glass bg-white/95 dark:bg-slate-800/95 rounded-3xl w-full max-w-md flex flex-col shadow-2xl scale-in overflow-hidden relative" onclick="event.stopPropagation()">
+            
+            <!-- Floating Buttons (Share & Close) -->
+            <div class="absolute top-3 left-3 right-3 flex justify-between z-10 pointer-events-none">
+                <button onclick="shareProduct()" class="w-8 h-8 rounded-full bg-white/80 dark:bg-slate-700/80 backdrop-blur shadow flex items-center justify-center text-slate-700 dark:text-gray-200 pointer-events-auto hover:scale-110 transition">
+                    <i class="fas fa-share-nodes"></i>
+                </button>
+                <button onclick="closeModal('productModal')" class="w-8 h-8 rounded-full bg-white/80 dark:bg-slate-700/80 backdrop-blur shadow flex items-center justify-center text-gray-500 hover:text-red-500 pointer-events-auto hover:scale-110 transition">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <div class="flex flex-col justify-center">
-                <div id="modalCategories" class="flex flex-wrap gap-2 mb-3"></div>
-                <h2 id="modalName" class="text-xl sm:text-2xl font-extrabold mb-6 text-slate-800 dark:text-gray-100 leading-tight"></h2>
+
+            <!-- Content Area (Scrollable if needed) -->
+            <div class="overflow-y-auto hide-scrollbar p-5 pt-4 max-h-[75vh]">
+                <!-- Image Container (Perfectly fits image) -->
+                <div class="w-full h-48 sm:h-56 bg-gray-50 dark:bg-slate-900/50 rounded-2xl mb-4 mt-6 relative flex items-center justify-center">
+                    <!-- Mix blend multiply makes white backgrounds transparent in light mode -->
+                    <img id="modalImg" src="" alt="" loading="lazy" class="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal p-2">
+                </div>
                 
-                <div class="mb-6">
-                    <label class="block mb-3 font-bold text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400" data-i18n="select_unit">اختر الوحدة:</label>
+                <!-- Title & Tags -->
+                <div id="modalCategories" class="flex flex-wrap gap-1.5 mb-2"></div>
+                <h2 id="modalName" class="text-lg sm:text-xl font-extrabold mb-4 text-slate-800 dark:text-gray-100 leading-tight"></h2>
+                
+                <!-- Units Selection -->
+                <div class="mb-5">
+                    <label class="block mb-2 font-bold text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400" data-i18n="select_unit">اختر الوحدة:</label>
                     <div id="modalUnits" class="space-y-2"></div>
                 </div>
 
-                <div class="mb-8">
-                    <label class="block mb-3 font-bold text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400" data-i18n="quantity">الكمية:</label>
-                    <div class="flex items-center gap-3">
-                        <button onclick="changeModalQty(-1)" class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-slate-700 text-xl font-bold hover:bg-emerald-500 hover:text-white transition-all transform active:scale-95 shadow-sm">-</button>
-                        <input type="number" id="modalQty" value="1" min="1" class="flex-1 text-center text-xl font-bold rounded-xl bg-white dark:bg-slate-800 border-2 border-transparent focus:border-emerald-500 py-3 shadow-sm transition-colors outline-none">
-                        <button onclick="changeModalQty(1)" class="w-12 h-12 rounded-xl bg-gray-100 dark:bg-slate-700 text-xl font-bold hover:bg-emerald-500 hover:text-white transition-all transform active:scale-95 shadow-sm">+</button>
+                <!-- Quantity Selection -->
+                <div class="mb-2 flex items-center justify-between gap-4">
+                    <label class="font-bold text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400" data-i18n="quantity">الكمية:</label>
+                    <div class="flex items-center gap-2 bg-gray-100 dark:bg-slate-700 rounded-xl p-1 shadow-inner">
+                        <button onclick="changeModalQty(-1)" class="w-10 h-10 rounded-lg bg-white dark:bg-slate-800 text-lg font-bold hover:bg-emerald-500 hover:text-white transition-all shadow-sm flex items-center justify-center">-</button>
+                        <input type="number" id="modalQty" value="1" min="1" class="w-12 text-center text-lg font-bold bg-transparent border-none outline-none text-slate-800 dark:text-white">
+                        <button onclick="changeModalQty(1)" class="w-10 h-10 rounded-lg bg-white dark:bg-slate-800 text-lg font-bold hover:bg-emerald-500 hover:text-white transition-all shadow-sm flex items-center justify-center">+</button>
                     </div>
                 </div>
+            </div>
 
-                <button onclick="addToCartFromModal()" class="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/40 flex items-center justify-center gap-3 transform active:scale-95">
+            <!-- Sticky Bottom Button -->
+            <div class="p-4 border-t border-gray-100 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md">
+                <button id="addToCartBtn" onclick="addToCartFromModal()" class="w-full py-3.5 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/40 flex items-center justify-center gap-3 transform active:scale-95">
                     <i class="fas fa-cart-plus text-xl"></i>
-                    <span data-i18n="add_to_cart">أضف إلى السلة</span>
+                    <span id="addToCartText" data-i18n="add_to_cart">أضف إلى السلة</span>
                 </button>
             </div>
         </div>
@@ -272,36 +292,34 @@
 
     <!-- Checkout Method Modal -->
     <div id="checkoutModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm" onclick="closeModal('checkoutModal', event)">
-        <div class="glass rounded-3xl p-6 sm:p-8 w-full max-w-md scale-in shadow-2xl relative" onclick="event.stopPropagation()">
-            <button onclick="closeModal('checkoutModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
+        <div class="glass rounded-3xl p-6 sm:p-8 w-full max-w-sm scale-in shadow-2xl relative" onclick="event.stopPropagation()">
+            <button onclick="closeModal('checkoutModal')" class="absolute top-4 rtl:left-4 ltr:right-4 text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
                 <i class="fas fa-times-circle"></i>
             </button>
-            <h2 class="text-xl sm:text-2xl font-extrabold mb-8 text-center text-slate-800 dark:text-gray-100" data-i18n="delivery_method">طريقة الاستلام</h2>
-            <div class="space-y-4 mb-8">
+            <h2 class="text-xl font-extrabold mb-6 text-center text-slate-800 dark:text-gray-100 mt-2" data-i18n="delivery_method">طريقة الاستلام</h2>
+            <div class="space-y-4 mb-6">
                 <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md transform hover:-translate-y-1">
                     <input type="radio" name="deliveryMethod" value="pickup" checked class="w-5 h-5 accent-emerald-500">
                     <div class="flex-1">
                         <h3 class="font-bold text-lg text-slate-800 dark:text-gray-100" data-i18n="pickup">الاستلام من المحل</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="pickup_desc">استلام طلبك مباشرة من فرعنا</p>
                     </div>
                 </label>
                 <label class="flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 dark:border-slate-700 cursor-pointer hover:border-emerald-500 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-500/10 has-[:checked]:shadow-md transform hover:-translate-y-1">
                     <input type="radio" name="deliveryMethod" value="delivery" class="w-5 h-5 accent-emerald-500">
                     <div class="flex-1">
                         <h3 class="font-bold text-lg text-slate-800 dark:text-gray-100" data-i18n="home_delivery">توصيل للمنزل</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="delivery_desc">سنقوم بتوصيل الطلب إلى باب منزلك</p>
                     </div>
                 </label>
             </div>
-            <button onclick="sendWhatsAppOrder()" class="w-full py-4 bg-green-500 text-white rounded-2xl font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-3 transform active:scale-95">
+            <button onclick="sendWhatsAppOrder()" class="w-full py-3.5 bg-green-500 text-white rounded-2xl font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-3 transform active:scale-95">
                 <i class="fab fa-whatsapp text-2xl"></i>
-                <span data-i18n="send_order">إرسال الطلب عبر واتساب</span>
+                <span data-i18n="send_order">إرسال الطلب</span>
             </button>
         </div>
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 dark:bg-white text-white dark:text-slate-800 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none font-bold text-sm sm:text-base border border-gray-700 dark:border-gray-200">
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 dark:bg-white text-white dark:text-slate-800 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none font-bold text-sm sm:text-base border border-gray-700 dark:border-gray-200">
         <i class="fas fa-check-circle text-emerald-400 dark:text-emerald-500 text-lg"></i>
         <span id="toastMsg"></span>
     </div>
@@ -510,28 +528,24 @@
         ar: {
             brand_name: "الندى بلاست", brand_sub: "للتجارة والتوزيع", search_placeholder: "ابحث عن منتج...",
             all: "الكل", no_results_title: "لا توجد منتجات مطابقة", no_results_desc: "حاول تعديل البحث أو تصفح الفئات الأخرى",
-            show_all: "عرض كل المنتجات", select_unit: "اختر الوحدة:", quantity: "الكمية:", add_to_cart: "أضف إلى السلة",
+            show_all: "عرض كل المنتجات", select_unit: "اختر الوحدة:", quantity: "الكمية:", add_to_cart: "أضف إلى السلة", added_success: "تمت الإضافة بنجاح ✓",
             cart: "السلة", checkout: "إتمام الشراء", empty_cart_title: "سلتك فارغة", empty_cart_desc: "أضف بعض المنتجات لإتمام الطلب",
-            start_shopping: "ابدأ التسوق", delivery_method: "طريقة الاستلام", pickup: "الاستلام من المحل", pickup_desc: "استلام طلبك مباشرة من فرعنا",
-            home_delivery: "توصيل للمنزل", delivery_desc: "سنقوم بتوصيل الطلب إلى باب منزلك", send_order: "إرسال الطلب عبر واتساب",
-            piece: "قطعة", added_to_cart: "تمت الإضافة للسلة بنجاح", empty_cart_warn: "السلة فارغة! أضف منتجات أولاً.",
-            items_in_cart: "عنصر",
-            footer_about_title: "الندى بلاست", 
-            footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996.",
+            start_shopping: "ابدأ التسوق", delivery_method: "طريقة الاستلام", pickup: "الاستلام من المحل",
+            home_delivery: "توصيل للمنزل", send_order: "إرسال الطلب", link_copied: "تم نسخ الرابط",
+            piece: "قطعة", empty_cart_warn: "السلة فارغة! أضف منتجات أولاً.", items_in_cart: "عنصر",
+            footer_about_title: "الندى بلاست", footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996.",
             store_empty_title: "المتجر قيد التحديث", store_empty_desc: "لا توجد منتجات معروضة في المتجر حالياً.",
             loading: "جاري تحميل المنتجات..."
         },
         en: {
             brand_name: "Al-Nada Plast", brand_sub: "Trading & Distribution", search_placeholder: "Search for product...",
             all: "All", no_results_title: "No matching products", no_results_desc: "Try adjusting your search or browse other categories",
-            show_all: "Show All Products", select_unit: "Select Unit:", quantity: "Quantity:", add_to_cart: "Add to Cart",
+            show_all: "Show All Products", select_unit: "Select Unit:", quantity: "Quantity:", add_to_cart: "Add to Cart", added_success: "Added Successfully ✓",
             cart: "Cart", checkout: "Checkout", empty_cart_title: "Your cart is empty", empty_cart_desc: "Add some products to complete your order",
-            start_shopping: "Start Shopping", delivery_method: "Delivery Method", pickup: "Pickup from Store", pickup_desc: "Pick up your order directly from our branch",
-            home_delivery: "Home Delivery", delivery_desc: "We will deliver the order to your doorstep", send_order: "Send Order via WhatsApp",
-            piece: "Piece", added_to_cart: "Added to cart successfully", empty_cart_warn: "Cart is empty! Add products first.",
-            items_in_cart: "items",
-            footer_about_title: "Al-Nada Plast", 
-            footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996.",
+            start_shopping: "Start Shopping", delivery_method: "Delivery Method", pickup: "Store Pickup",
+            home_delivery: "Home Delivery", send_order: "Send Order", link_copied: "Link Copied",
+            piece: "Piece", empty_cart_warn: "Cart is empty! Add products first.", items_in_cart: "items",
+            footer_about_title: "Al-Nada Plast", footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996.",
             store_empty_title: "Store is Updating", store_empty_desc: "There are currently no products available online.",
             loading: "Loading products..."
         }
@@ -629,7 +643,7 @@
         grid.innerHTML = filtered.map((p, index) => `
             <div class="fade-in-up glass rounded-2xl sm:rounded-3xl p-2 sm:p-3 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col h-full" style="animation-delay: ${index * 0.03}s" onclick="openProductModal('${p.id}')">
                 <div class="bg-white dark:bg-slate-800 rounded-xl sm:rounded-2xl overflow-hidden mb-2 sm:mb-3 aspect-square flex items-center justify-center p-2 sm:p-3 relative">
-                    <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/300x300/e2e8f0/64748b?text=Image'">
+                    <img src="${p.img}" alt="${p.name}" loading="lazy" class="w-full h-full object-contain mix-blend-multiply dark:mix-blend-normal group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/300x300/e2e8f0/64748b?text=Image'">
                     <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-xl sm:rounded-2xl backdrop-blur-[2px]">
                         <span class="bg-emerald-500 text-white w-10 h-10 rounded-full flex items-center justify-center transform scale-75 group-hover:scale-100 transition-transform duration-300 shadow-lg"><i class="fas fa-plus"></i></span>
                     </div>
@@ -666,7 +680,7 @@
             cartItems.innerHTML = cart.map((item, index) => {
                 return `
                 <div class="flex gap-3 bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 fade-in-up hover:shadow-md transition-shadow">
-                    <img src="${item.img}" loading="lazy" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl bg-white dark:bg-slate-700 p-1 flex-shrink-0" onerror="this.src='https://placehold.co/100x100/e2e8f0/64748b?text=Img'">
+                    <img src="${item.img}" loading="lazy" class="w-16 h-16 sm:w-20 sm:h-20 object-contain mix-blend-multiply dark:mix-blend-normal rounded-xl bg-white dark:bg-slate-700 p-1 flex-shrink-0" onerror="this.src='https://placehold.co/100x100/e2e8f0/64748b?text=Img'">
                     <div class="flex-1 min-w-0 flex flex-col justify-center">
                         <h4 class="font-bold text-sm sm:text-base truncate text-slate-800 dark:text-gray-100">${item.name}</h4>
                         <p class="text-xs text-emerald-600 dark:text-emerald-400 mb-2 font-semibold flex items-center gap-1">
@@ -783,6 +797,15 @@
         
         selectUnit(0);
         document.getElementById('modalQty').value = 1;
+        
+        // Reset button state just in case
+        const btn = document.getElementById('addToCartBtn');
+        const icon = btn.querySelector('i');
+        const text = document.getElementById('addToCartText');
+        btn.classList.replace('bg-green-600', 'bg-emerald-500');
+        icon.className = 'fas fa-cart-plus text-xl';
+        text.innerText = t('add_to_cart');
+        
         openModal('productModal');
     }
 
@@ -793,6 +816,7 @@
     }
 
     function changeModalQty(delta) {
+        if(navigator.vibrate) navigator.vibrate(20); // ميزة التفاعل الاهتزازي
         const input = document.getElementById('modalQty');
         let val = parseInt(input.value) || 1;
         input.value = Math.max(1, val + delta);
@@ -809,6 +833,8 @@
     }
 
     function addToCartFromModal() {
+        if(navigator.vibrate) navigator.vibrate(50); // ميزة التفاعل الاهتزازي
+
         const qty = parseInt(document.getElementById('modalQty').value) || 1;
         if (!currentProduct || !selectedUnit) return;
         
@@ -828,12 +854,25 @@
         
         localStorage.setItem('alnada_cart', JSON.stringify(cart));
         renderCart();
-        closeModal('productModal');
-        showToast(t('added_to_cart'));
+        
+        // Button Success Animation
+        const btn = document.getElementById('addToCartBtn');
+        const icon = btn.querySelector('i');
+        const text = document.getElementById('addToCartText');
+        
+        btn.classList.replace('bg-emerald-500', 'bg-green-600');
+        icon.className = 'fas fa-check text-xl';
+        text.innerText = t('added_success');
+        
+        setTimeout(() => {
+            closeModal('productModal');
+        }, 600); // يغلق النافذة بعد ثانية الا ربع تلقائياً
+        
         animateBadge();
     }
 
     function changeCartQty(index, delta) {
+        if(navigator.vibrate) navigator.vibrate(20);
         if (!cart[index]) return;
         cart[index].qty += delta;
         if (cart[index].qty < 1) cart.splice(index, 1);
@@ -842,6 +881,7 @@
     }
 
     function removeFromCart(index) {
+        if(navigator.vibrate) navigator.vibrate(40);
         cart.splice(index, 1);
         localStorage.setItem('alnada_cart', JSON.stringify(cart));
         renderCart();
@@ -858,8 +898,22 @@
         setTimeout(() => openModal('checkoutModal'), 100);
     }
 
+    function shareProduct() {
+        if (navigator.share && currentProduct) {
+            navigator.share({
+                title: currentProduct.name,
+                text: `${t('brand_name')} - ${currentProduct.name}`,
+                url: window.location.href
+            }).catch(console.error);
+        } else {
+            // Fallback
+            navigator.clipboard.writeText(window.location.href);
+            showToast(t('link_copied'));
+        }
+    }
+
     // ==========================================
-    // 10. WHATSAPP FORMATTING (المعدل كما طلبت)
+    // 10. WHATSAPP FORMATTING (دقيق، مرتب وبدون ايموجي/تاريخ)
     // ==========================================
     function sendWhatsAppOrder() {
         const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
