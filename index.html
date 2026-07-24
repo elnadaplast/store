@@ -175,43 +175,21 @@
         </main>
     </div>
 
-    <!-- Corporate Footer / Contact Info (Optimized & Payment box removed) -->
+    <!-- Corporate Footer / Contact Info (Optimized & Numbers Removed) -->
     <footer class="container mx-auto px-4 mt-8 mb-4">
         <div class="glass rounded-3xl p-6 sm:p-10 shadow-lg border border-gray-100 dark:border-gray-800">
-            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- About -->
-                <div class="text-center md:text-start">
-                    <h3 class="text-2xl font-extrabold mb-4 text-emerald-600 dark:text-emerald-400" data-i18n="footer_about_title">الندى بلاست</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4" data-i18n="footer_about_desc">
-                        نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.
-                    </p>
-                    <div class="flex items-center justify-center md:justify-start gap-4">
-                        <a href="https://www.facebook.com/share/1C1pKGFayp/" target="_blank" class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="Facebook">
-                            <i class="fab fa-facebook-f text-lg"></i>
-                        </a>
-                        <a href="https://maps.app.goo.gl/azVw1khGMuYoV8xd9" target="_blank" class="w-10 h-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors" title="Location">
-                            <i class="fas fa-map-marker-alt text-lg"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Contact & Services -->
-                <div class="text-center md:text-start">
-                    <h4 class="text-lg font-bold mb-4 text-slate-800 dark:text-gray-100" data-i18n="footer_contact_title">تواصل معنا</h4>
-                    <ul class="space-y-4 text-sm font-semibold">
-                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01112611103')">
-                            <i class="fas fa-truck-fast text-emerald-500 text-lg"></i> 
-                            <span data-i18n="contact_delivery">الطلب والتوصيل:</span> <span class="dir-ltr font-bold text-slate-800 dark:text-gray-200">011 1261 1103</span>
-                        </li>
-                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01044200047')">
-                            <i class="fas fa-handshake text-blue-500 text-lg"></i> 
-                            <span data-i18n="contact_sales">المبيعات:</span> <span class="dir-ltr font-bold text-slate-800 dark:text-gray-200">010 4420 0047</span>
-                        </li>
-                        <li class="flex items-center justify-center md:justify-start gap-3 text-gray-600 dark:text-gray-300 hover:text-emerald-500 transition-colors cursor-pointer" onclick="openActionModal('01027760090')">
-                            <i class="fas fa-headset text-red-500 text-lg"></i> 
-                            <span data-i18n="contact_complaints">الشكاوى:</span> <span class="dir-ltr font-bold text-slate-800 dark:text-gray-200">010 2776 0090</span>
-                        </li>
-                    </ul>
+            <div class="max-w-2xl mx-auto text-center flex flex-col items-center justify-center">
+                <h3 class="text-2xl font-extrabold mb-4 text-emerald-600 dark:text-emerald-400" data-i18n="footer_about_title">الندى بلاست</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-6" data-i18n="footer_about_desc">
+                    نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996. التزامنا هو تقديم خدمة متميزة لعملائنا في كافة أنحاء الجمهورية.
+                </p>
+                <div class="flex items-center justify-center gap-4">
+                    <a href="https://www.facebook.com/share/1C1pKGFayp/" target="_blank" class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-colors" title="Facebook">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="https://maps.app.goo.gl/azVw1khGMuYoV8xd9" target="_blank" class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center hover:bg-red-600 hover:text-white transition-colors" title="Location">
+                        <i class="fas fa-map-marker-alt text-xl"></i>
+                    </a>
                 </div>
             </div>
             <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700 text-center text-xs text-gray-400 font-bold">
@@ -220,25 +198,10 @@
         </div>
     </footer>
 
-    <!-- Contact Action Modal -->
-    <div id="actionModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onclick="closeModal('actionModal', event)">
-        <div class="glass bg-white dark:bg-slate-800 rounded-3xl p-6 w-full max-w-sm shadow-2xl scale-in text-center" onclick="event.stopPropagation()">
-            <h3 class="font-extrabold text-xl mb-6 text-slate-800 dark:text-white" data-i18n="action_title">تواصل معنا</h3>
-            <div class="space-y-3">
-                <a id="callLink" href="#" class="flex items-center justify-center gap-3 w-full bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-xl font-bold transition shadow-md">
-                    <i class="fa-solid fa-phone"></i> <span data-i18n="action_call">اتصال هاتفي</span>
-                </a>
-                <a id="waLink" href="#" target="_blank" class="flex items-center justify-center gap-3 w-full bg-green-500 hover:bg-green-600 text-white p-4 rounded-xl font-bold transition shadow-md">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> <span data-i18n="action_whatsapp">محادثة واتساب</span>
-                </a>
-                <button onclick="closeModal('actionModal')" class="w-full text-gray-500 hover:text-red-500 mt-4 font-bold transition p-2" data-i18n="action_cancel">إلغاء</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Product Quick View Modal -->
-    <div id="productModal" class="modal-hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm" onclick="closeModal('productModal', event)">
-        <div class="glass rounded-t-3xl sm:rounded-3xl p-5 sm:p-6 w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto scale-in relative grid sm:grid-cols-2 gap-6 shadow-2xl" onclick="event.stopPropagation()">
+    <!-- Product Quick View Modal (Now a Floating Window) -->
+    <div id="productModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm" onclick="closeModal('productModal', event)">
+        <!-- The inner box with rounded-3xl on all sides to make it a floating window -->
+        <div class="glass rounded-3xl p-5 sm:p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto scale-in relative grid sm:grid-cols-2 gap-6 shadow-2xl" onclick="event.stopPropagation()">
             <button onclick="closeModal('productModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
                 <i class="fas fa-times-circle"></i>
             </button>
@@ -299,14 +262,6 @@
             </div>
 
             <div id="cartSummary" class="pt-4 border-t border-gray-200 dark:border-slate-700 mt-4 hidden">
-                <div class="flex justify-between mb-2 text-sm font-bold text-slate-600 dark:text-gray-400">
-                    <span data-i18n="total_items">إجمالي العناصر:</span>
-                    <span id="totalItemsVal">0</span>
-                </div>
-                <div class="flex justify-between mb-4 text-sm font-bold text-slate-600 dark:text-gray-400">
-                    <span data-i18n="total_pieces">إجمالي القطع:</span>
-                    <span id="totalPiecesVal">0</span>
-                </div>
                 <button onclick="openCheckoutModal()" class="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold text-lg hover:bg-emerald-600 transition-all shadow-lg hover:shadow-emerald-500/40 flex items-center justify-center gap-3 transform active:scale-95">
                     <i class="fas fa-check-circle text-xl"></i>
                     <span data-i18n="checkout">إتمام الشراء</span>
@@ -316,8 +271,8 @@
     </div>
 
     <!-- Checkout Method Modal -->
-    <div id="checkoutModal" class="modal-hidden fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-black/60 backdrop-blur-sm" onclick="closeModal('checkoutModal', event)">
-        <div class="glass rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 w-full sm:max-w-md scale-in shadow-2xl relative" onclick="event.stopPropagation()">
+    <div id="checkoutModal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-sm" onclick="closeModal('checkoutModal', event)">
+        <div class="glass rounded-3xl p-6 sm:p-8 w-full max-w-md scale-in shadow-2xl relative" onclick="event.stopPropagation()">
             <button onclick="closeModal('checkoutModal')" class="modal-close-btn text-2xl text-gray-500 hover:text-red-500 z-10 transition-transform hover:scale-110 hover:rotate-90">
                 <i class="fas fa-times-circle"></i>
             </button>
@@ -346,7 +301,7 @@
     </div>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 dark:bg-white text-white dark:text-slate-800 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none font-bold text-sm sm:text-base border border-gray-700 dark:border-gray-200">
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 dark:bg-white text-white dark:text-slate-800 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none font-bold text-sm sm:text-base border border-gray-700 dark:border-gray-200">
         <i class="fas fa-check-circle text-emerald-400 dark:text-emerald-500 text-lg"></i>
         <span id="toastMsg"></span>
     </div>
@@ -434,24 +389,21 @@
         document.getElementById('loadingState').classList.remove('hidden');
         document.getElementById('loadingState').classList.add('flex');
         
-        // 1. فحص التخزين المؤقت أولاً لسرعة فائقة
         try {
             const cachedData = localStorage.getItem('alnada_products_cache');
             const cacheTime = localStorage.getItem('alnada_products_time');
             
-            // إذا كان الكاش موجوداً ولم يمر عليه 30 دقيقة (1800000 مللي ثانية)
             if (cachedData && cacheTime && (Date.now() - parseInt(cacheTime) < 1800000)) {
                 products = JSON.parse(cachedData);
                 if (products.length > 0) {
                     document.getElementById('loadingState').classList.add('hidden');
                     document.getElementById('loadingState').classList.remove('flex');
                     updateUI();
-                    return; // إنهاء الدالة مبكراً جداً (الموقع يفتح بلمح البصر)
+                    return; 
                 }
             }
         } catch (e) { console.log('Cache read error', e); }
 
-        // 2. إذا لم يكن هناك كاش، أو انتهت مدته، نقوم بالتحميل من GitHub
         try {
             let owner = 'mahmoudelsheikh7';
             if (window.location.hostname.includes('github.io')) {
@@ -499,7 +451,6 @@
                     return parsed;
                 });
                 
-                // حفظ البيانات في التخزين المؤقت للمرات القادمة
                 localStorage.setItem('alnada_products_cache', JSON.stringify(products));
                 localStorage.setItem('alnada_products_time', Date.now().toString());
             }
@@ -522,7 +473,7 @@
     }
 
     // ==========================================
-    // 5. SMART FUZZY SEARCH (Fast implementation)
+    // 5. SMART FUZZY SEARCH
     // ==========================================
     function levenshtein(a, b) {
         if(a.length === 0) return b.length;
@@ -564,12 +515,10 @@
             start_shopping: "ابدأ التسوق", delivery_method: "طريقة الاستلام", pickup: "الاستلام من المحل", pickup_desc: "استلام طلبك مباشرة من فرعنا",
             home_delivery: "توصيل للمنزل", delivery_desc: "سنقوم بتوصيل الطلب إلى باب منزلك", send_order: "إرسال الطلب عبر واتساب",
             piece: "قطعة", added_to_cart: "تمت الإضافة للسلة بنجاح", empty_cart_warn: "السلة فارغة! أضف منتجات أولاً.",
-            items_in_cart: "عنصر", total_items: "إجمالي العناصر:", total_pieces: "إجمالي القطع الكلية:",
+            items_in_cart: "عنصر",
             footer_about_title: "الندى بلاست", 
             footer_about_desc: "نحن متخصصون في توفير أفضل حلول مواد التعبئة والتغليف والمطبوعات الورقية عالية الجودة منذ عام 1996.",
-            footer_contact_title: "تواصل معنا", contact_delivery: "الطلب والتوصيل:", contact_sales: "المبيعات:", contact_complaints: "الشكاوى:",
             store_empty_title: "المتجر قيد التحديث", store_empty_desc: "لا توجد منتجات معروضة في المتجر حالياً.",
-            action_title: "تواصل معنا", action_call: "اتصال هاتفي", action_whatsapp: "محادثة واتساب", action_cancel: "إلغاء",
             loading: "جاري تحميل المنتجات..."
         },
         en: {
@@ -580,12 +529,10 @@
             start_shopping: "Start Shopping", delivery_method: "Delivery Method", pickup: "Pickup from Store", pickup_desc: "Pick up your order directly from our branch",
             home_delivery: "Home Delivery", delivery_desc: "We will deliver the order to your doorstep", send_order: "Send Order via WhatsApp",
             piece: "Piece", added_to_cart: "Added to cart successfully", empty_cart_warn: "Cart is empty! Add products first.",
-            items_in_cart: "items", total_items: "Total Items:", total_pieces: "Total Pieces:",
+            items_in_cart: "items",
             footer_about_title: "Al-Nada Plast", 
             footer_about_desc: "We specialize in providing high-quality packaging solutions and paper prints since 1996.",
-            footer_contact_title: "Contact Us", contact_delivery: "Orders & Delivery:", contact_sales: "Sales:", contact_complaints: "Complaints:",
             store_empty_title: "Store is Updating", store_empty_desc: "There are currently no products available online.",
-            action_title: "Contact Us", action_call: "Phone Call", action_whatsapp: "WhatsApp Chat", action_cancel: "Cancel",
             loading: "Loading products..."
         }
     };
@@ -698,11 +645,8 @@
         const cartSummary = document.getElementById('cartSummary');
         const badge = document.getElementById('cartBadge');
         const cartCount = document.getElementById('cartCount');
-        const totalItemsVal = document.getElementById('totalItemsVal');
-        const totalPiecesVal = document.getElementById('totalPiecesVal');
         
         const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-        const totalPieces = cart.reduce((sum, item) => sum + (item.qty * item.unit.qty), 0);
 
         if (cart.length === 0) {
             emptyCart.classList.remove('hidden');
@@ -718,19 +662,15 @@
             badge.classList.remove('hidden');
             badge.innerText = totalQty;
             cartCount.innerText = `(${cart.length} ${t('items_in_cart')})`;
-            totalItemsVal.innerText = totalQty;
-            totalPiecesVal.innerText = totalPieces;
 
             cartItems.innerHTML = cart.map((item, index) => {
-                const piecesTotal = item.qty * item.unit.qty;
                 return `
                 <div class="flex gap-3 bg-white/80 dark:bg-slate-800/80 p-3 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 fade-in-up hover:shadow-md transition-shadow">
                     <img src="${item.img}" loading="lazy" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-xl bg-white dark:bg-slate-700 p-1 flex-shrink-0" onerror="this.src='https://placehold.co/100x100/e2e8f0/64748b?text=Img'">
                     <div class="flex-1 min-w-0 flex flex-col justify-center">
                         <h4 class="font-bold text-sm sm:text-base truncate text-slate-800 dark:text-gray-100">${item.name}</h4>
                         <p class="text-xs text-emerald-600 dark:text-emerald-400 mb-2 font-semibold flex items-center gap-1">
-                            <i class="fas fa-box"></i> ${item.unit.name} 
-                            <span class="text-gray-400 font-normal">(${piecesTotal} ${t('piece')})</span>
+                            <i class="fas fa-box"></i> ${item.unit.name}
                         </p>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-1 bg-gray-100 dark:bg-slate-700 rounded-lg p-1 shadow-inner">
@@ -775,7 +715,7 @@
     function closeModal(id, e) {
         if (e && e.target !== e.currentTarget) return;
         if (modalHistory.length > 0 && modalHistory[modalHistory.length - 1] === id) {
-            window.history.back();
+            window.history.back(); 
         } else {
             hideModal(id);
         }
@@ -918,34 +858,20 @@
         setTimeout(() => openModal('checkoutModal'), 100);
     }
 
-    function openActionModal(number) {
-        document.getElementById('callLink').href = `tel:${number}`;
-        document.getElementById('waLink').href = `https://wa.me/20${number.replace(/^0/, '')}`;
-        openModal('actionModal');
-    }
-
+    // ==========================================
+    // 10. WHATSAPP FORMATTING (المعدل كما طلبت)
+    // ==========================================
     function sendWhatsAppOrder() {
         const method = document.querySelector('input[name="deliveryMethod"]:checked').value;
-        const methodText = method === 'pickup' ? (currentLang === 'ar' ? 'الاستلام من المحل 🏪' : 'Store Pickup 🏪') : (currentLang === 'ar' ? 'توصيل للمنزل 🚚' : 'Home Delivery 🚚');
+        const methodText = method === 'pickup' ? (currentLang === 'ar' ? 'الاستلام من المحل' : 'Store Pickup') : (currentLang === 'ar' ? 'توصيل للمنزل' : 'Home Delivery');
         
-        let msg = `🛍️ *${t('brand_name')} - ${currentLang === 'ar' ? 'طلب جديد' : 'New Order'}*\n`;
-        msg += `➖➖➖➖➖➖➖➖➖➖\n`;
-        msg += `📅 *${currentLang === 'ar' ? 'التاريخ والوقت' : 'Date & Time'}:* ${new Date().toLocaleString(currentLang === 'ar' ? 'ar-EG' : 'en-US')}\n`;
-        msg += `🚚 *${currentLang === 'ar' ? 'طريقة الاستلام' : 'Delivery Method'}:* ${methodText}\n\n`;
-        msg += `📦 *${currentLang === 'ar' ? 'المنتجات' : 'Items'}:*\n`;
+        let msg = "";
         
-        let grandTotal = 0;
-        cart.forEach((item, i) => {
-            const lineTotalPieces = item.qty * item.unit.qty;
-            grandTotal += lineTotalPieces;
-            msg += `${i + 1}. *${item.name}*\n`;
-            msg += `   • ${currentLang === 'ar' ? 'الوحدة' : 'Unit'}: ${item.unit.name} (${item.unit.qty} ${t('piece')})\n`;
-            msg += `   • ${currentLang === 'ar' ? 'الكمية' : 'Qty'}: ${item.qty}\n`;
-            msg += `   • ${currentLang === 'ar' ? 'إجمالي القطع' : 'Total Pieces'}: ${lineTotalPieces}\n\n`;
+        cart.forEach((item) => {
+            msg += `${item.qty} ${item.unit.name} ${item.name}\n`;
         });
 
-        msg += `➖➖➖➖➖➖➖➖➖➖\n`;
-        msg += `🧮 *${currentLang === 'ar' ? 'إجمالي القطع الكلي' : 'Grand Total Pieces'}: ${grandTotal}*`;
+        msg += `\nطريقة الاستلام: ${methodText}`;
 
         window.open(`https://wa.me/201112611103?text=${encodeURIComponent(msg)}`, '_blank');
         
@@ -971,7 +897,7 @@
     }
 
     // ==========================================
-    // 10. HORIZONTAL DRAG-TO-SCROLL LOGIC
+    // 11. HORIZONTAL DRAG-TO-SCROLL LOGIC
     // ==========================================
     function initDragScroll() {
         const slider = document.getElementById('categoryList');
@@ -1014,7 +940,7 @@
     }
 
     // ==========================================
-    // 11. INITIALIZATION
+    // 12. INITIALIZATION
     // ==========================================
     function init() {
         updateUI(); 
