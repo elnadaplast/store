@@ -476,7 +476,7 @@
     }
 
     // ==========================================
-    // 4. GITHUB API INTEGRATION
+    // 4. GITHUB API INTEGRATION (المعدل لجلب كل الملفات)
     // ==========================================
     async function fetchProducts() {
         document.getElementById('loadingState').classList.remove('hidden');
@@ -486,48 +486,58 @@
         document.getElementById('shopMainWrapper').classList.add('hidden');
 
         try {
-            // Auto-detect owner/repo or default to mahmoudelsheikh7/store
             let owner = 'mahmoudelsheikh7';
-            let repo = 'store';
             if (window.location.hostname.includes('github.io')) {
-                const pathParts = window.location.pathname.split('/').filter(Boolean);
-                if (pathParts.length >= 2) {
-                    owner = pathParts[0];
-                    repo = pathParts[1];
-                }
+                owner = window.location.hostname.split('.')[0];
             }
 
-            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/item`;
-            const response = await fetch(apiUrl);
+            // 1. جلب كافة المستودعات الخاصة بالمستخدم
+            const reposResponse = await fetch(`https://api.github.com/users/${owner}/repos?per_page=100`);
+            if (!reposResponse.ok) throw new Error("API Error fetching repos");
             
-            if (!response.ok) throw new Error("API Error");
-            
-            const data = await response.json();
-            
-            if (!Array.isArray(data) || data.length === 0) throw new Error("Empty Folder");
-
+            const repos = await reposResponse.json();
+            let allImageFiles = [];
             const validExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'bmp', 'ico', 'tiff', 'tif', 'avif', 'jfif', 'pjpeg', 'pjp'];
-            const imageFiles = data.filter(file => {
-                const ext = file.name.split('.').pop().toLowerCase();
-                return file.type === 'file' && validExtensions.includes(ext);
-            });
 
-            if (imageFiles.length === 0) throw new Error("No Images");
+            // 2. فحص شجرة الملفات بالكامل داخل كل مستودع (بدون التقيد بمجلد معين)
+            await Promise.allSettled(repos.map(async (repo) => {
+                const branch = repo.default_branch || 'main';
+                // استخدام recursive=1 للحصول على جميع الملفات والمجلدات مهما كان عمقها
+                const treeResponse = await fetch(`https://api.github.com/repos/${owner}/${repo.name}/git/trees/${branch}?recursive=1`);
+                if (treeResponse.ok) {
+                    const treeData = await treeResponse.json();
+                    if (treeData.tree) {
+                        const images = treeData.tree.filter(file => {
+                            if (file.type !== 'blob') return false;
+                            const ext = file.path.split('.').pop().toLowerCase();
+                            return validExtensions.includes(ext);
+                        }).map(file => {
+                            return {
+                                name: file.path.split('/').pop(), // استخراج اسم الملف فقط دون المسار
+                                download_url: `https://raw.githubusercontent.com/${owner}/${repo.name}/${branch}/${file.path}`,
+                                type: 'file'
+                            };
+                        });
+                        allImageFiles = allImageFiles.concat(images);
+                    }
+                }
+            }));
 
-            products = imageFiles.map(file => {
+            if (allImageFiles.length === 0) throw new Error("No Images");
+
+            products = allImageFiles.map(file => {
                 const parsed = parseFilename(file.name);
-                // MANDATORY: Use download_url to prevent URL encoding issues with Arabic chars
                 parsed.img = file.download_url; 
                 return parsed;
             });
 
-            // Success
+            // نجاح العملية
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('loadingState').classList.remove('flex');
             updateUI();
 
         } catch (error) {
-            // Failure or empty
+            console.error("Fetch Error:", error);
             products = [];
             document.getElementById('loadingState').classList.add('hidden');
             document.getElementById('loadingState').classList.remove('flex');
