@@ -418,7 +418,7 @@
         else { el.classList.add('hidden'); el.classList.remove('flex', 'block'); }
     };
 
-    const fetchProducts = async () => {
+    async function fetchProducts() {
         setDisplay('loadingState', true, true);
         
         try {
@@ -494,7 +494,7 @@
                 setDisplay('cartBtnGlobal', false);
             }
         }
-    };
+    }
 
     // ==========================================
     // 6. SMART FUZZY SEARCH (Levenshtein)
@@ -558,7 +558,7 @@
 
     const t = (key) => i18n[currentLang][key] || key;
 
-    const updateUI = () => {
+    function updateUI() {
         document.documentElement.lang = currentLang;
         document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
@@ -581,24 +581,24 @@
         } else if ($('loadingState').classList.contains('hidden')) {
             setDisplay('globalEmptyState', true, true);
         }
-    };
+    }
 
-    const toggleLang = () => {
+    function toggleLang() {
         currentLang = currentLang === 'ar' ? 'en' : 'ar';
         storage.setString('alnada_lang', currentLang);
         updateUI();
-    };
+    }
 
-    const toggleTheme = () => {
+    function toggleTheme() {
         currentTheme = currentTheme === 'light' ? 'dark' : 'light';
         storage.setString('alnada_theme', currentTheme);
         document.documentElement.classList.toggle('dark', currentTheme === 'dark');
-    };
+    }
 
     // ==========================================
     // 8. UI RENDERING
     // ==========================================
-    const renderCategories = () => {
+    function renderCategories() {
         const allCats = new Set();
         products.forEach(p => p.categories.forEach(c => allCats.add(c)));
         
@@ -613,9 +613,9 @@
         });
         
         $('categoryList').innerHTML = html;
-    };
+    }
 
-    const renderProducts = () => {
+    function renderProducts() {
         const clearBtn = $('clearSearchBtn');
         clearBtn.classList.toggle('hidden', !activeSearchQuery);
         
@@ -643,9 +643,9 @@
                 <h3 class="font-bold text-xs sm:text-base text-center text-slate-800 dark:text-gray-100 line-clamp-2 px-1 flex-1 leading-snug w-full">${p.name}</h3>
             </button>
         `).join('');
-    };
+    }
 
-    const renderCart = () => {
+    function renderCart() {
         const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
 
         if (cart.length === 0) {
@@ -683,37 +683,37 @@
                 </div>
             `).join('');
         }
-    };
+    }
 
     // ==========================================
     // 9. MODAL & HISTORY API
     // ==========================================
-    const openModal = (id) => {
+    function openModal(id) {
         const modal = $(id);
         modal.classList.remove('modal-hidden');
         modal.classList.add('modal-visible');
         document.body.style.overflow = 'hidden';
         modalHistory.push(id);
         window.history.pushState({ modal: id }, '');
-    };
+    }
 
-    const hideModal = (id) => {
+    function hideModal(id) {
         const modal = $(id);
         modal.classList.remove('modal-visible');
         modal.classList.add('modal-hidden');
         const index = modalHistory.indexOf(id);
         if (index > -1) modalHistory.splice(index, 1);
         if (modalHistory.length === 0) document.body.style.overflow = '';
-    };
+    }
 
-    const closeModal = (id, e = null) => {
+    function closeModal(id, e = null) {
         if (e && e.target !== e.currentTarget) return;
         if (modalHistory.length > 0 && modalHistory[modalHistory.length - 1] === id) {
             window.history.back(); 
         } else {
             hideModal(id);
         }
-    };
+    }
 
     window.addEventListener('popstate', () => {
         if (modalHistory.length > 0) hideModal(modalHistory[modalHistory.length - 1]);
@@ -722,22 +722,22 @@
     // ==========================================
     // 10. APP LOGIC & EVENTS
     // ==========================================
-    const debouncedSearch = () => {
+    function debouncedSearch() {
         clearTimeout(searchDebounceTimer);
         searchDebounceTimer = setTimeout(() => {
             activeSearchQuery = $('searchInput').value;
             renderProducts();
         }, 200);
-    };
+    }
 
-    const clearSearch = () => {
+    function clearSearch() {
         $('searchInput').value = '';
         activeSearchQuery = '';
         renderProducts();
         $('searchInput').focus();
-    };
+    }
 
-    const resetFilters = () => {
+    function resetFilters() {
         clearSearch();
         activeCategory = 'all';
         if (products.length > 0) {
@@ -745,16 +745,16 @@
             renderProducts();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    };
+    }
 
-    const filterByCategory = (cat) => {
+    function filterByCategory(cat) {
         activeCategory = cat;
         renderCategories();
         renderProducts();
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    }
 
-    const openProductModal = (id) => {
+    function openProductModal(id) {
         currentProduct = products.find(p => p.id === id);
         if (!currentProduct) return;
 
@@ -782,19 +782,19 @@
         $('addToCartText').innerText = t('add_to_cart');
         
         openModal('productModal');
-    };
+    }
 
-    const selectUnit = (idx) => { 
+    function selectUnit(idx) { 
         if (currentProduct?.units[idx]) selectedUnit = currentProduct.units[idx]; 
-    };
+    }
 
-    const changeModalQty = (delta) => {
+    function changeModalQty(delta) {
         triggerVibration(20);
         const input = $('modalQty');
         input.value = Math.max(1, (parseInt(input.value) || 1) + delta);
-    };
+    }
 
-    const animateBadge = () => {
+    function animateBadge() {
         const badge = $('cartBadge');
         const icon = $('cartIconAnim');
         badge.classList.remove('badge-pop');
@@ -802,9 +802,9 @@
         badge.classList.add('badge-pop');
         icon.classList.add('scale-125');
         setTimeout(() => icon.classList.remove('scale-125'), 300);
-    };
+    }
 
-    const addToCartFromModal = () => {
+    function addToCartFromModal() {
         triggerVibration(50);
         const qty = parseInt($('modalQty').value) || 1;
         if (!currentProduct || !selectedUnit) return;
@@ -833,33 +833,33 @@
         
         setTimeout(() => closeModal('productModal'), 600);
         animateBadge();
-    };
+    }
 
-    const changeCartQty = (index, delta) => {
+    function changeCartQty(index, delta) {
         triggerVibration(20);
         if (!cart[index]) return;
         cart[index].qty += delta;
         if (cart[index].qty < 1) cart.splice(index, 1);
         storage.set('alnada_cart', cart);
         renderCart();
-    };
+    }
 
-    const removeFromCart = (index) => {
+    function removeFromCart(index) {
         triggerVibration(40);
         cart.splice(index, 1);
         storage.set('alnada_cart', cart);
         renderCart();
-    };
+    }
 
-    const toggleCart = () => { renderCart(); openModal('cartDrawer'); };
+    function toggleCart() { renderCart(); openModal('cartDrawer'); }
 
-    const openCheckoutModal = () => {
+    function openCheckoutModal() {
         if (cart.length === 0) { showToast(t('empty_cart_warn')); return; }
         closeModal('cartDrawer');
         setTimeout(() => openModal('checkoutModal'), 100);
-    };
+    }
 
-    const shareProduct = () => {
+    function shareProduct() {
         if (navigator.share && currentProduct) {
             navigator.share({
                 title: currentProduct.name,
@@ -870,12 +870,12 @@
             navigator.clipboard.writeText(window.location.href);
             showToast(t('link_copied'));
         }
-    };
+    }
 
     // ==========================================
     // 11. STRICT WHATSAPP FORMATTING
     // ==========================================
-    const sendWhatsAppOrder = () => {
+    function sendWhatsAppOrder() {
         const methodNode = document.querySelector('input[name="deliveryMethod"]:checked');
         if (!methodNode) return;
         
@@ -894,10 +894,10 @@
         storage.set('alnada_cart', cart);
         renderCart();
         closeModal('checkoutModal');
-    };
+    }
 
     let toastTimeout;
-    const showToast = (msg) => {
+    function showToast(msg) {
         const toast = $('toast');
         $('toastMsg').innerText = msg;
         
@@ -909,12 +909,12 @@
             toast.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
             toast.classList.remove('opacity-100', 'translate-y-0');
         }, 3000);
-    };
+    }
 
     // ==========================================
     // 12. DRAG-TO-SCROLL
     // ==========================================
-    const initDragScroll = () => {
+    function initDragScroll() {
         const slider = $('categoryList');
         if (!slider) return;
         let isDown = false, startX, scrollLeft, hasMoved = false;
@@ -949,16 +949,16 @@
         slider.addEventListener('click', (e) => {
             if (hasMoved) { e.preventDefault(); e.stopPropagation(); hasMoved = false; }
         }, true);
-    };
+    }
 
     // ==========================================
     // 13. INITIALIZATION
     // ==========================================
-    const init = () => {
+    function init() {
         updateUI(); 
         fetchProducts(); 
         initDragScroll();
-    };
+    }
 
     init();
 </script>
